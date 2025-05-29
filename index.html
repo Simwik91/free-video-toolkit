@@ -6,15 +6,12 @@
   <meta name="description" content="Convert videos online for free. Create and download converted videos instantly. Simple, fast, and no signup required.">
   <title>Free Video Converter</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <!-- Load FFmpeg before any script that uses it -->
-  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.min.js"></script>
+  <!-- Analytics scripts -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4041775163958551" crossorigin="anonymous"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR5XP1GJFC"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-LR5XP1GJFC');
+    function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-LR5XP1GJFC');
   </script>
   <style>
     body { font-family: 'Segoe UI', sans-serif; text-align: center; padding: 2em; background: #f4f4f4; color: #333; }
@@ -41,144 +38,75 @@
   </div>
 
   <label for="format">Output Format</label>
-  <select id="format">
-    <option value="mp4">MP4</option>
-    <option value="webm">WEBM</option>
-  </select>
-
+  <select id="format"><option value="mp4">MP4</option><option value="webm">WEBM</option></select>
   <label for="quality">Quality</label>
-  <select id="quality">
-    <option value="high">High</option>
-    <option value="medium" selected>Medium</option>
-    <option value="low">Low</option>
-  </select>
-
+  <select id="quality"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select>
   <label><input type="checkbox" id="mute-audio"> Mute Audio</label>
-
   <button id="convertBtn" disabled>Convert</button>
 
-  <div id="progressContainer" style="display: none;">
+  <div id="progressContainer" style="display:none;">
     <p id="progressMessage">Starting conversion...</p>
-    <div class="progress-bar">
-      <div id="progressFill" class="progress-fill"></div>
-    </div>
+    <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
     <p id="progressPercent">0%</p>
   </div>
 
-  <div id="resultContainer" style="display: none;">
-    <p>Conversion complete!</p>
-    <a id="downloadLink" href="#" download="converted.mp4">Download Converted Video</a>
-  </div>
+  <div id="resultContainer" style="display:none;"><p>Conversion complete!</p><a id="downloadLink" href="#" download="converted.mp4">Download Converted Video</a></div>
 
   <footer>Free Video Converter. Made with ❤️</footer>
 
-  <script>
-    window.addEventListener('load', () => {
-      if (!window.FFmpeg) {
-        console.error('FFmpeg is not defined.');
-        alert('Error: FFmpeg failed to load.');
-        return;
-      }
+  <!-- Main logic as ES module to import FFmpeg -->
+  <script type="module">
+    import { createFFmpeg, fetchFile } from 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/ffmpeg.min.js';
 
-      const { createFFmpeg, fetchFile } = FFmpeg;
-      const ffmpeg = createFFmpeg({
-        log: true,
-        corePath: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js',
-        progress: ({ ratio }) => {
-          const pct = Math.round(ratio * 100);
-          updateProgress(pct, `Converting: ${pct}%`);
-        }
-      });
+    const ffmpeg = createFFmpeg({ log: true, progress: ({ ratio }) => {
+      const pct = Math.round(ratio*100);
+      updateProgress(pct, `Converting: ${pct}%`);
+    }});
 
-      let uploadedFile = null;
-      let conversionInProgress = false;
+    let uploadedFile=null, conversionInProgress=false;
+    const dropZone=document.getElementById('dropZone'), videoInput=document.getElementById('videoInput'), dropZoneText=document.getElementById('dropZoneText'), convertBtn=document.getElementById('convertBtn'), progressContainer=document.getElementById('progressContainer'), progressMessage=document.getElementById('progressMessage'), progressFill=document.getElementById('progressFill'), progressPercent=document.getElementById('progressPercent'), resultContainer=document.getElementById('resultContainer'), downloadLink=document.getElementById('downloadLink');
 
-      const dropZone = document.getElementById('dropZone');
-      const videoInput = document.getElementById('videoInput');
-      const dropZoneText = document.getElementById('dropZoneText');
-      const convertBtn = document.getElementById('convertBtn');
-      const progressContainer = document.getElementById('progressContainer');
-      const progressMessage = document.getElementById('progressMessage');
-      const progressFill = document.getElementById('progressFill');
-      const progressPercent = document.getElementById('progressPercent');
-      const resultContainer = document.getElementById('resultContainer');
-      const downloadLink = document.getElementById('downloadLink');
-
+    window.addEventListener('load', ()=>{
       videoInput.addEventListener('change', e => e.target.files[0] && processFile(e.target.files[0]));
-      dropZone.addEventListener('click', () => videoInput.click());
-      dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('active'); });
-      dropZone.addEventListener('dragleave', e => { e.preventDefault(); dropZone.classList.remove('active'); });
-      dropZone.addEventListener('drop', e => {
-        e.preventDefault(); dropZone.classList.remove('active');
-        e.dataTransfer.files[0] && processFile(e.dataTransfer.files[0]);
-      });
+      dropZone.addEventListener('click', ()=>videoInput.click());
+      dropZone.addEventListener('dragover', e=>{e.preventDefault();dropZone.classList.add('active');});
+      dropZone.addEventListener('dragleave',e=>{e.preventDefault();dropZone.classList.remove('active');});
+      dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('active');e.dataTransfer.files[0]&&processFile(e.dataTransfer.files[0]);});
       convertBtn.addEventListener('click', startConversion);
-
-      function processFile(file) {
-        const types = ['video/mp4','video/quicktime','video/x-msvideo','video/x-matroska','video/webm'];
-        const ext = '.' + file.name.split('.').pop().toLowerCase();
-        if (!types.includes(file.type) && !['.mp4','.mov','.avi','.mkv','.webm'].includes(ext)) {
-          return alert('Unsupported video format.');
-        }
-        if (file.size > 100*1024*1024) return alert('File exceeds 100MB.');
-        uploadedFile = file;
-        dropZoneText.textContent = `Selected: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
-        convertBtn.disabled = false;
-      }
-
-      function updateProgress(percent, msg) {
-        progressFill.style.width = percent + '%';
-        progressMessage.textContent = msg;
-        progressPercent.textContent = percent + '%';
-      }
-
-      async function startConversion() {
-        if (!uploadedFile || conversionInProgress) return;
-        conversionInProgress = true;
-        convertBtn.disabled = true;
-        progressContainer.style.display = 'block';
-        resultContainer.style.display = 'none';
-
-        const format = document.getElementById('format').value;
-        const quality = document.getElementById('quality').value;
-        const mute = document.getElementById('mute-audio').checked;
-        const inputExt = uploadedFile.name.split('.').pop();
-        const inName = `input.${inputExt}`;
-        const outName = `output.${format}`;
-
-        try {
-          updateProgress(10,'Loading FFmpeg...');
-          if (!ffmpeg.isLoaded()) await ffmpeg.load();
-          updateProgress(30,'Writing file...');
-          ffmpeg.FS('writeFile', inName, await fetchFile(uploadedFile));
-
-          const args=['-i',inName];
-          if(quality==='high') args.push('-crf','18');
-          else if(quality==='medium') args.push('-crf','23');
-          else if(quality==='low') args.push('-crf','28');
-          if(mute) args.push('-an');
-          args.push(outName);
-
-          updateProgress(50,'Converting...');
-          await ffmpeg.run(...args);
-          updateProgress(90,'Finishing...');
-
-          const data=ffmpeg.FS('readFile',outName);
-          const blob=new Blob([data.buffer],{type:`video/${format}`});
-          const url=URL.createObjectURL(blob);
-          downloadLink.href=url;
-          downloadLink.download=`converted.${format}`;
-          resultContainer.style.display='block';
-          updateProgress(100,'Done');
-        } catch(e) {
-          console.error(e);
-          alert('Conversion error.');
-        } finally {
-          conversionInProgress=false;
-          convertBtn.disabled=false;
-        }
-      }
     });
+
+    function processFile(file){
+      const types=['video/mp4','video/quicktime','video/x-msvideo','video/x-matroska','video/webm'];
+      const ext='.'+file.name.split('.').pop().toLowerCase();
+      if(!types.includes(file.type)&&!['.mp4','.mov','.avi','.mkv','.webm'].includes(ext))return alert('Unsupported format.');
+      if(file.size>100*1024*1024)return alert('File >100MB.');
+      uploadedFile=file;
+      dropZoneText.textContent=`Selected: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+      convertBtn.disabled=false;
+    }
+
+    function updateProgress(percent,msg){
+      progressFill.style.width=`${percent}%`;
+      progressMessage.textContent=msg;
+      progressPercent.textContent=`${percent}%`;
+    }
+
+    async function startConversion(){
+      if(!uploadedFile||conversionInProgress)return;
+      conversionInProgress=true;convertBtn.disabled=true;progressContainer.style.display='block';resultContainer.style.display='none';
+      const format=document.getElementById('format').value, quality=document.getElementById('quality').value, mute=document.getElementById('mute-audio').checked;
+      const inExt=uploadedFile.name.split('.').pop(), inName=`input.${inExt}`, outName=`output.${format}`;
+      try{
+        updateProgress(10,'Loading FFmpeg...');if(!ffmpeg.isLoaded())await ffmpeg.load();
+        updateProgress(30,'Writing file...');await ffmpeg.FS('writeFile',inName,await fetchFile(uploadedFile));
+        const args=['-i',inName];
+        if(quality==='high')args.push('-crf','18');else if(quality==='medium')args.push('-crf','23');else if(quality==='low')args.push('-crf','28');
+        if(mute)args.push('-an');args.push(outName);
+        updateProgress(50,'Converting...');await ffmpeg.run(...args);
+        updateProgress(90,'Finishing...');const data=ffmpeg.FS('readFile',outName);const blob=new Blob([data.buffer],{type:`video/${format}`});const url=URL.createObjectURL(blob);
+        downloadLink.href=url;downloadLink.download=`converted.${format}`;resultContainer.style.display='block';updateProgress(100,'Done');
+      }catch(e){console.error(e);alert('Conversion error.');}finally{conversionInProgress=false;convertBtn.disabled=false;}
+    }
   </script>
 </body>
 </html>
