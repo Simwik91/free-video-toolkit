@@ -54,15 +54,13 @@
 
   <footer>Free Video Converter. Made with ❤️</footer>
 
-  <!-- Main logic as ES module using ESM build to avoid CORS issues -->
   <script type="module">
-    // Import from the ESM entrypoint (enables proper CORS headers)
-    import { createFFmpeg, fetchFile } from 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/ffmpeg.esm.js';
+    // Import from jsDelivr for proper CORS headers
+    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/ffmpeg.min.js';
 
     const ffmpeg = createFFmpeg({
       log: true,
-      // Provide core from same origin to avoid CORS, use jsDelivr which sends CORS headers
-      corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/ffmpeg-core.js',
+      corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/esm/ffmpeg-core.js',
       progress: ({ ratio }) => {
         const pct = Math.round(ratio * 100);
         updateProgress(pct, `Converting: ${pct}%`);
