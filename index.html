@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Convert videos online for free. Create and download converted videos instantly. Simple, fast, and no signup required.">
+  <title>Free Video Converter</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR5XP1GJFC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LR5XP1GJFC');
+  </script>
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.8/dist/ffmpeg.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 2em;
+      background: #f4f4f4;
+      color: #333;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 0.2em;
+    }
+    p {
+      margin-top: 0;
+      margin-bottom: 2em;
+      color: #666;
+    }
+    label {
+      display: block;
+      margin: 0.5em auto;
+      width: 90%;
+      max-width: 400px;
+      text-align: left;
+    }
+    select, button {
+      margin: 0.5em auto;
+      padding: 0.75em;
+      width: 90%;
+      max-width: 400px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+      display: block;
+    }
+    button {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    .drop-zone {
+      margin: 1em auto;
+      padding: 2em;
+      width: 90%;
+      max-width: 400px;
+      border: 2px dashed #007acc;
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+    }
+    .drop-zone.active {
+      border-color: #005fa3;
+    }
+    .progress-bar {
+      width: 90%;
+      max-width: 400px;
+      height: 20px;
+      background: #ccc;
+      border-radius: 10px;
+      margin: 1em auto;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: #007acc;
+      border-radius: 10px;
+    }
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5em;
+      margin: 1em auto;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      border-radius: 26px;
+      transition: 0.4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.4s;
+    }
+    .toggle-switch input:checked + .slider {
+      background-color: #007acc;
+    }
+    .toggle-switch input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+    .sister-site-btn {
+      display: block;
+      background: #ff6600;
+      color: white;
+      padding: 0.75em 1.5em;
+      margin: 1em auto;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+    .sister-site-btn:hover {
+      background-color: #cc5200;
+    }
+    .sister-tools-section {
+      margin: 2em auto;
+    }
+    .sister-tools-section h2 {
+      font-size: 1.8em;
+      color: #333;
+    }
+    .sister-tools-section p {
+      font-size: 1em;
+      max-width: 600px;
+      margin: 1em auto;
+    }
+    footer {
+      margin-top: 3em;
+      font-size: 0.85em;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <h1>Free Video Converter</h1>
+  <p>Convert your videos online for free. No signup required.</p>
+
+  <div id="dropZone" class="drop-zone">
+    <span id="dropZoneText">Drop your video here or click to upload<br>Supported formats: MP4, MOV, AVI, MKV, WEBM<br>Max file size: 100MB</span>
+    <input type="file" id="videoInput" accept="video/*" hidden>
+  </div>
+
+  <div class="settings">
+    <label for="format">Output Format</label>
+    <select id="format">
+      <option value="mp4">MP4</option>
+      <option value="webm">WEBM</option>
+    </select>
+    <label for="quality">Quality</label>
+    <select id="quality">
+      <option value="high">High</option>
+      <option value="medium" selected>Medium</option>
+      <option value="low">Low</option>
+    </select>
+  </div>
+
+  <div class="toggle-container">
+    <label for="mute-audio">Mute Audio</label>
+    <label class="toggle-switch">
+      <input type="checkbox" id="mute-audio">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <button id="convertBtn" disabled>Convert</button>
+
+  <div id="progressContainer" style="display: none;">
+    <p id="progressMessage">Starting conversion...</p>
+    <div class="progress-bar">
+      <div id="progressFill" class="progress-fill"></div>
+    </div>
+    <p id="progressPercent">0%</p>
+  </div>
+
+  <div id="resultContainer" style="display: none;">
+    <p>Conversion complete!</p>
+    <a id="downloadLink" href="#" download="converted.mp4">Download Converted Video</a>
+  </div>
+
+  <hr style="margin: 2em auto; width: 80%; border: 0; border-top: 1px solid #ddd;" />
+
+  <div class="sister-tools-section">
+    <h2>Try Our Other Free Tools</h2>
+    <p>All our tools process your data entirely in your browser, ensuring your files are never stored or uploaded, keeping your privacy completely secure.</p>
+    <a href="https://www.free-image-toolkit.com" target="_blank" rel="noopener noreferrer" class="sister-site-btn">
+      Free Image Toolkit
+    </a>
+    <a href="https://www.free-ean-maker.com" target="_blank" rel="noopener noreferrer" class="sister-site-btn">
+      Free Barcode Generator
+    </a>
+    <a href="https://www.free-qr-maker.com" target="_blank" rel="noopener noreferrer" class="sister-site-btn">
+      Free QR Code Generator
+    </a>
+  </div>
+
+  <footer>Free Video Converter. Made with ❤️</footer>
+
+  <script>
+    const { createFFmpeg, fetchFile } = FFmpeg;
+    const ffmpeg = createFFmpeg({
+      log: true,
+      corePath: 'https://unpkg.com/@ffmpeg/core@0.12.4/dist/ffmpeg-core.js',
+      progress: ({ ratio }) => {
+        const percent = Math.floor(ratio * 100);
+        updateProgress(percent, `Converting: ${percent}% complete`);
+      }
+    });
+
+    let uploadedFile = null;
+    let conversionInProgress = false;
+
+    const dropZone = document.getElementById('dropZone');
+    const videoInput = document.getElementById('videoInput');
+    const dropZoneText = document.getElementById('dropZoneText');
+    const convertBtn = document.getElementById('convertBtn');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressMessage = document.getElementById('progressMessage');
+    const progressFill = document.getElementById('progressFill');
+    const progressPercent = document.getElementById('progressPercent');
+    const resultContainer = document.getElementById('resultContainer');
+    const downloadLink = document.getElementById('downloadLink');
+
+    videoInput.addEventListener('change', handleFileSelect);
+    dropZone.addEventListener('click', () => videoInput.click());
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('active');
+    });
+    dropZone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('active');
+    });
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('active');
+      const file = e.dataTransfer.files[0];
+      if (file) processFile(file);
+    });
+    convertBtn.addEventListener('click', startConversion);
+
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (file) processFile(file);
+    }
+
+    function processFile(file) {
+      const validTypes = ['video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/x-matroska', 'video/webm'];
+      const validExtensions = ['.mp4', '.mov', '.avi', '.mkv', '.webm'];
+      const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+
+      if (!validTypes.includes(file.type) && !validExtensions.includes(fileExt)) {
+        alert('Please select a valid video file (MP4, MOV, AVI, MKV, WEBM)');
+        return;
+      }
+      if (file.size > 100 * 1024 * 1024) {
+        alert('File size exceeds 100MB limit. Please choose a smaller file.');
+        return;
+      }
+
+      uploadedFile = file;
+      dropZoneText.textContent = `File selected: ${truncateFileName(file.name, 20)} (${formatFileSize(file.size)})`;
+      convertBtn.disabled = false;
+    }
+
+    async function startConversion() {
+      if (!uploadedFile || conversionInProgress) return;
+
+      progressContainer.style.display = 'block';
+      resultContainer.style.display = 'none';
+      conversionInProgress = true;
+      convertBtn.disabled = true;
+
+      const format = document.getElementById('format').value;
+      const quality = document.getElementById('quality').value;
+      const muteAudio = document.getElementById('mute-audio').checked;
+      const inputExt = uploadedFile.name.split('.').pop();
+      const inputName = `input.${inputExt}`;
+      const outputName = `output.${format}`;
+
+      try {
+        updateProgress(10, 'Initializing FFmpeg...');
+        if (!ffmpeg.isLoaded()) await ffmpeg.load();
+        updateProgress(20, 'Reading video data...');
+        ffmpeg.FS('writeFile', inputName, await fetchFile(uploadedFile));
+
+        let args = ['-i', inputName];
+        if (quality === 'high') args.push('-crf', '18', '-preset', 'slow');
+        else if (quality === 'medium') args.push('-crf', '23', '-preset', 'medium');
+        else if (quality === 'low') args.push('-crf', '28', '-preset', 'fast');
+        if (muteAudio) args.push('-an');
+        args.push(outputName);
+
+        updateProgress(30, 'Starting conversion...');
+        await ffmpeg.run(...args);
+        updateProgress(95, 'Finalizing output...');
+
+        const data = ffmpeg.FS('readFile', outputName);
+        const outputBlob = new Blob([data.buffer], { type: `video/${format}` });
+        const outputUrl = URL.createObjectURL(outputBlob);
+
+        ffmpeg.FS('unlink', inputName);
+        ffmpeg.FS('unlink', outputName);
+
+        updateProgress(100, 'Conversion complete!');
+        setTimeout(() => {
+          showResults(outputUrl, format);
+          conversionInProgress = false;
+        }, 500);
+      } catch (err) {
+        console.error(err);
+        updateProgress(0, 'Conversion failed');
+        alert(`Error: ${err.message}`);
+        conversionInProgress = false;
+        convertBtn.disabled = false;
+      }
+    }
+
+    function showResults(url, format) {
+      downloadLink.href = url;
+      downloadLink.download = `converted.${format}`;
+      resultContainer.style.display = 'block';
+    }
+
+    function updateProgress(percent, message) {
+      progressMessage.textContent = message;
+      progressFill.style.width = `${percent}%`;
+      progressPercent.textContent = `${percent}%`;
+    }
+
+    function truncateFileName(name, maxLength) {
+      if (name.length <= maxLength) return name;
+      return name.substring(0, maxLength / 2) + '...' + name.substring(name.length - maxLength / 2);
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes < 1024) return bytes + ' bytes';
+      else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      else return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+  </script>
+</body>
+</html>
