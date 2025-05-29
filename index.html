@@ -54,22 +54,33 @@
 
   <footer>Free Video Converter. Made with ❤️</footer>
 
-  <!-- Load FFmpeg first -->
-  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/ffmpeg.min.js"></script>
+  <!-- Load FFmpeg from official CDN with fallback -->
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/ffmpeg.min.js"></script>
   <script>
-    // Wait for FFmpeg to load
-    document.addEventListener('DOMContentLoaded', function() {
-      // Check if FFmpeg is loaded
+    // Wait for everything to load
+    window.addEventListener('load', function() {
+      // Check if FFmpeg loaded successfully
       if (typeof FFmpeg === 'undefined') {
-        console.error('FFmpeg not loaded');
-        return;
+        console.error('FFmpeg failed to load. Trying fallback...');
+        // Try loading from alternative CDN
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/ffmpeg.min.js';
+        script.onload = initApp;
+        script.onerror = function() {
+          alert('Failed to load video converter. Please try again later.');
+        };
+        document.head.appendChild(script);
+      } else {
+        initApp();
       }
+    });
 
+    function initApp() {
       const { createFFmpeg, fetchFile } = FFmpeg;
 
       const ffmpeg = createFFmpeg({
         log: true,
-        corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/ffmpeg-core.js',
+        corePath: 'https://unpkg.com/@ffmpeg/core@0.12.10/dist/ffmpeg-core.js',
         progress: ({ ratio }) => {
           const pct = Math.round(ratio * 100);
           updateProgress(pct, `Converting: ${pct}%`);
@@ -166,7 +177,7 @@
           convertBtn.disabled = false;
         }
       }
-    });
+    }
   </script>
 </body>
 </html>
