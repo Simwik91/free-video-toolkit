@@ -55,12 +55,12 @@
   <footer>Free Video Converter. Made with ❤️</footer>
 
   <script type="module">
-    // Import from jsDelivr for proper CORS headers
-    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/ffmpeg.min.js';
+    // Import from jsDelivr with corrected UMD path
+    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.min.js';
 
     const ffmpeg = createFFmpeg({
       log: true,
-      corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/esm/ffmpeg-core.js',
+      corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd/ffmpeg-core.js',
       progress: ({ ratio }) => {
         const pct = Math.round(ratio * 100);
         updateProgress(pct, `Converting: ${pct}%`);
@@ -152,8 +152,8 @@
         resultContainer.style.display = 'block';
         updateProgress(100, 'Done');
       } catch (e) {
-        console.error(e);
-        alert('Conversion error.');
+        console.error('Conversion error:', e.message);
+        alert(`Conversion error: ${e.message}`);
       } finally {
         conversionInProgress = false;
         convertBtn.disabled = false;
