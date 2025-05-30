@@ -68,10 +68,9 @@
   </div>
 </div>
 
-  <!-- Load FFmpeg from official CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/ffmpeg.min.js"></script>
+  <!-- Updated FFmpeg from official CDN -->
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
   <script>
-    // Wait for the page to load
     document.addEventListener('DOMContentLoaded', function() {
       // Check if FFmpeg is loaded
       if (typeof FFmpeg === 'undefined') {
@@ -84,7 +83,7 @@
 
       const ffmpeg = createFFmpeg({
         log: true,
-        corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/ffmpeg-core.js',
+        corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js',
         progress: ({ ratio }) => {
           const pct = Math.round(ratio * 100);
           updateProgress(pct, `Converting: ${pct}%`);
@@ -121,8 +120,11 @@
       function processFile(file) {
         const allowedTypes = ['video/mp4','video/quicktime','video/x-msvideo','video/x-matroska','video/webm'];
         const ext = '.' + file.name.split('.').pop().toLowerCase();
-        if (!allowedTypes.includes(file.type) && !['.mp4','.mov','.avi','.mkv','.webm'].includes(ext)) {
-          return alert('Unsupported video format.');
+        if (!allowedTypes.includes(file.type) {
+          // Additional check by extension if type not detected
+          if (!['.mp4','.mov','.avi','.mkv','.webm'].includes(ext)) {
+            return alert('Unsupported video format.');
+          }
         }
         if (file.size > 100 * 1024 * 1024) return alert('File exceeds 100MB.');
         uploadedFile = file;
@@ -152,7 +154,9 @@
 
         try {
           updateProgress(10, 'Loading FFmpeg...');
-          if (!ffmpeg.isLoaded()) await ffmpeg.load();
+          if (!ffmpeg.isLoaded()) {
+            await ffmpeg.load();
+          }
           updateProgress(30, 'Writing file...');
           ffmpeg.FS('writeFile', inputName, await fetchFile(uploadedFile));
 
@@ -176,6 +180,7 @@
           updateProgress(100, 'Done');
         } catch (e) {
           console.error('Conversion error:', e);
+          updateProgress(0, 'Conversion failed');
           alert(`Conversion error: ${e.message}`);
         } finally {
           conversionInProgress = false;
