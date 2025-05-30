@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Convert videos online for free. Create and download converted videos instantly. Simple, fast, and no signup required.">
-  <title>Advanced Video Converter</title>
-  <link rel="icon" type="image/x-icon" href="data:image/x-icon;,">
+  <title>Free Video Converter</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR5XP1GJFC"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -14,197 +14,106 @@
     gtag('config', 'G-LR5XP1GJFC');
   </script>
   <style>
-    :root {
-      --primary: #007acc;
-      --primary-dark: #005fa3;
-      --secondary: #ff6600;
-      --secondary-dark: #cc5200;
-      --light: #ffffff;
-      --dark: #333333;
-      --gray: #666666;
-      --light-gray: #f0f0f0;
-      --border: #cccccc;
-      --success: #28a745;
-    }
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f4f4;
-      color: var(--dark);
-      line-height: 1.6;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
       padding: 2em;
-      min-height: 100vh;
+      background: #f4f4f4;
+      color: #333;
     }
-    
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: var(--light);
-      border-radius: 12px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-    
-    header {
-      background: var(--primary);
-      color: var(--light);
-      padding: 1.5rem;
-      text-align: center;
-    }
-    
     h1 {
-      font-size: 2.2rem;
-      margin-bottom: 0.3rem;
+      font-size: 2em;
+      margin-bottom: 0.2em;
     }
-    
-    .subtitle {
-      font-size: 1rem;
-      opacity: 0.9;
-      max-width: 600px;
-      margin: 0 auto;
+    p {
+      margin-top: 0;
+      margin-bottom: 2em;
+      color: #666;
     }
-    
-    .content {
-      padding: 1.5rem;
-    }
-    
-    .converter-ui {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-    
-    .upload-section {
-      background: var(--light);
-      border-radius: 8px;
-      padding: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    
-    .section-title {
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-      color: var(--primary);
-      position: relative;
-      padding-bottom: 0.5rem;
-    }
-    
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 40px;
-      height: 3px;
-      background: var(--primary);
-      border-radius: 3px;
-    }
-    
-    .drop-zone {
-      border: 2px dashed var(--primary);
-      border-radius: 8px;
-      padding: 2rem 1rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      background: rgba(0, 122, 204, 0.03);
-    }
-    
-    .drop-zone:hover, .drop-zone.active {
-      background: rgba(0, 122, 204, 0.08);
-      border-color: var(--primary-dark);
-    }
-    
-    .drop-zone i {
-      font-size: 2.5rem;
-      color: var(--primary);
-      margin-bottom: 0.8rem;
+    input[type="text"], input[type="file"], button, select {
+      margin: 0.5em auto;
+      padding: 0.75em;
+      width: 90%;
+      max-width: 400px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      box-sizing: border-box;
       display: block;
     }
-    
+    button {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    button:disabled {
+      background: #9ec5e6;
+      cursor: not-allowed;
+    }
+    .drop-zone {
+      border: 2px dashed #007acc;
+      border-radius: 6px;
+      padding: 2rem 1rem;
+      margin: 0.5em auto;
+      width: 90%;
+      max-width: 400px;
+      background: rgba(0, 122, 204, 0.03);
+      transition: all 0.3s ease;
+    }
+    .drop-zone:hover, .drop-zone.active {
+      background: rgba(0, 122, 204, 0.08);
+      border-color: #005fa3;
+    }
     .drop-zone p {
       margin: 0.4rem 0;
-      color: var(--gray);
+      color: #666;
     }
-    
     .file-info {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: rgba(0, 122, 204, 0.05);
-      border-radius: 6px;
+      margin: 1em auto;
+      width: 90%;
+      max-width: 400px;
       text-align: left;
     }
-    
-    .file-info h4 {
-      margin-bottom: 0.5rem;
-      color: var(--primary);
-    }
-    
     .file-detail {
       display: flex;
       justify-content: space-between;
       margin: 0.3rem 0;
       font-size: 0.9rem;
     }
-    
     .settings-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 1em auto;
+      width: 90%;
+      max-width: 400px;
     }
-    
     .setting-group {
+      width: 100%;
       margin-bottom: 1rem;
     }
-    
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      font-size: 0.95rem;
-    }
-    
-    select, input, button {
-      width: 100%;
-      padding: 0.8rem;
-      font-size: 0.95rem;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: var(--light);
-    }
-    
-    select:focus, input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.2);
-    }
-    
-    .checkbox-group {
+    .toggle-container {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
+      justify-content: center;
+      gap: 0.5em;
+      margin: 1em auto;
     }
-    
     .toggle-switch {
       position: relative;
       width: 50px;
       height: 26px;
     }
-    
     .toggle-switch input {
       opacity: 0;
       width: 0;
       height: 0;
     }
-    
     .slider {
       position: absolute;
       cursor: pointer;
@@ -216,7 +125,6 @@
       border-radius: 26px;
       transition: 0.4s;
     }
-    
     .slider:before {
       position: absolute;
       content: "";
@@ -228,341 +136,226 @@
       border-radius: 50%;
       transition: 0.4s;
     }
-    
     .toggle-switch input:checked + .slider {
-      background-color: var(--primary);
+      background-color: #007acc;
     }
-    
     .toggle-switch input:checked + .slider:before {
       transform: translateX(24px);
     }
-    
-    .convert-btn {
-      background: var(--primary);
-      color: var(--light);
-      border: none;
-      font-weight: 600;
-      font-size: 1.05rem;
-      padding: 0.9rem;
-      cursor: pointer;
-      transition: background 0.3s;
-      margin-top: 1rem;
-      border-radius: 6px;
-      box-shadow: 0 4px 10px rgba(0, 122, 204, 0.2);
-    }
-    
-    .convert-btn:hover {
-      background: var(--primary-dark);
-    }
-    
-    .convert-btn:disabled {
-      background: #9ec5e6;
-      cursor: not-allowed;
-    }
-    
     .progress-container {
-      margin-top: 1.5rem;
-      display: none;
+      margin: 1.5em auto;
+      width: 90%;
+      max-width: 400px;
     }
-    
     .progress-header {
       display: flex;
       justify-content: space-between;
       margin-bottom: 0.5rem;
       font-size: 0.95rem;
     }
-    
     .progress-bar {
       height: 10px;
       background: #e9ecef;
       border-radius: 5px;
       overflow: hidden;
     }
-    
     .progress-fill {
       height: 100%;
       width: 0;
-      background: linear-gradient(90deg, var(--primary), #00a8ff);
+      background: linear-gradient(90deg, #007acc, #00a8ff);
       border-radius: 5px;
       transition: width 0.4s ease;
     }
-    
     .result-container {
-      margin-top: 1.5rem;
+      margin: 1.5em auto;
+      width: 90%;
+      max-width: 400px;
       padding: 1.2rem;
       background: rgba(40, 167, 69, 0.08);
-      border: 1px dashed var(--success);
-      border-radius: 8px;
-      text-align: center;
-      display: none;
+      border: 1px dashed #28a745;
+      border-radius: 6px;
     }
-    
-    .result-container p {
-      margin-bottom: 1rem;
-      font-weight: 500;
-      color: var(--success);
-      font-size: 1.1rem;
-    }
-    
     .download-btn {
-      display: inline-block;
-      background: var(--success);
-      color: var(--light);
-      padding: 0.8rem 1.8rem;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-    
-    .download-btn:hover {
-      background: #218838;
-      transform: translateY(-2px);
-    }
-    
-    footer {
-      text-align: center;
-      margin-top: 2rem;
-      padding: 1.2rem;
-      color: var(--gray);
-      font-size: 0.85rem;
-    }
-    
-    .hidden {
-      display: none;
-    }
-    
-    .sister-tools-section {
-      margin: 2rem auto;
-      padding: 1.5rem;
-      background: var(--light-gray);
-      border-radius: 8px;
-    }
-    
-    .sister-tools-section h2 {
-      font-size: 1.5rem;
-      color: var(--dark);
-      margin-bottom: 1rem;
-    }
-    
-    .sister-tools-section p {
-      font-size: 0.95rem;
-      max-width: 600px;
-      margin: 0.8rem auto;
-      color: var(--gray);
-    }
-    
-    .sister-site-btn {
       display: block;
-      background: var(--secondary);
+      background: #28a745;
       color: white;
-      padding: 0.8rem;
-      margin: 0.8rem auto;
+      padding: 0.75em 1.5em;
+      margin: 1em auto;
       border-radius: 6px;
       text-decoration: none;
-      font-weight: 600;
-      max-width: 300px;
+      font-weight: bold;
       transition: background-color 0.3s ease;
     }
-    
-    .sister-site-btn:hover {
-      background-color: var(--secondary-dark);
+    .download-btn:hover {
+      background-color: #218838;
     }
-    
-    .tooltip {
-      position: relative;
-      display: inline-block;
-      cursor: help;
-      margin-left: 5px;
-      color: var(--primary);
-    }
-    
-    .tooltip .tooltiptext {
-      visibility: hidden;
-      width: 200px;
-      background-color: var(--dark);
-      color: var(--light);
-      text-align: center;
+    .sister-site-btn {
+      display: block;
+      background: #ff6600;
+      color: white;
+      padding: 0.75em 1.5em;
+      margin: 1em auto;
       border-radius: 6px;
-      padding: 8px;
-      position: absolute;
-      z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      transition: opacity 0.3s;
-      font-size: 0.85rem;
-      font-weight: normal;
+      text-decoration: none;
+      font-weight: bold;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      transition: background-color 0.3s ease;
     }
-    
-    .tooltip:hover .tooltiptext {
-      visibility: visible;
-      opacity: 1;
+    .sister-site-btn:hover {
+      background-color: #cc5200;
+    }
+    .sister-tools-section {
+      margin: 2em auto;
+    }
+    .sister-tools-section h2 {
+      font-size: 1.8em;
+      color: #333;
+    }
+    .sister-tools-section p {
+      font-size: 1em;
+      max-width: 600px;
+      margin: 1em auto;
+    }
+    footer {
+      margin-top: 3em;
+      font-size: 0.85em;
+      color: #888;
+    }
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Advanced Video Converter</h1>
-      <p class="subtitle">Convert videos with advanced options - no server processing required</p>
-    </header>
-    
-    <div class="content">
-      <div class="converter-ui">
-        <div class="upload-section">
-          <h2 class="section-title">Upload Video</h2>
-          <div id="dropZone" class="drop-zone">
-            <i>📁</i>
-            <p id="dropZoneText">Drop your video here or click to upload</p>
-            <p>Supported formats: MP4, WEBM, MOV, AVI, MKV</p>
-            <p>Max file size: 100MB</p>
-            <input type="file" id="videoInput" accept="video/*" class="hidden">
-          </div>
-          <div id="fileInfo" class="file-info hidden">
-            <h4>Selected File:</h4>
-            <div class="file-detail"><span>Name:</span> <span id="fileName">-</span></div>
-            <div class="file-detail"><span>Size:</span> <span id="fileSize">-</span></div>
-            <div class="file-detail"><span>Type:</span> <span id="fileType">-</span></div>
-            <div class="file-detail"><span>Dimensions:</span> <span id="fileDimensions">-</span></div>
-          </div>
-        </div>
-        
-        <div class="upload-section">
-          <h2 class="section-title">Conversion Settings</h2>
-          <div class="settings-grid">
-            <div class="setting-group">
-              <label for="inputFormat">Input Format <span class="tooltip">?
-                <span class="tooltiptext">Automatically detected from your file</span>
-              </span></label>
-              <select id="inputFormat" disabled>
-                <option value="auto">Auto Detect</option>
-              </select>
-            </div>
-            
-            <div class="setting-group">
-              <label for="outputFormat">Output Format</label>
-              <select id="outputFormat">
-                <option value="mp4">MP4</option>
-                <option value="webm">WEBM</option>
-                <option value="gif">GIF</option>
-              </select>
-            </div>
-            
-            <div class="setting-group">
-              <label for="quality">Quality</label>
-              <select id="quality">
-                <option value="high">High</option>
-                <option value="medium" selected>Medium</option>
-                <option value="low">Low</option>
-              </select>
-            </div>
-            
-            <div class="setting-group">
-              <label for="framerate">Frame Rate</label>
-              <select id="framerate">
-                <option value="original">Original</option>
-                <option value="30">30 fps</option>
-                <option value="25">25 fps</option>
-                <option value="24">24 fps</option>
-                <option value="15">15 fps</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="settings-grid">
-            <div class="setting-group">
-              <label for="resolution">Resolution</label>
-              <select id="resolution">
-                <option value="original">Original</option>
-                <option value="1080p">1080p (Full HD)</option>
-                <option value="720p">720p (HD)</option>
-                <option value="480p">480p (SD)</option>
-                <option value="360p">360p</option>
-              </select>
-            </div>
-            
-            <div class="setting-group">
-              <label for="aspectRatio">Aspect Ratio</label>
-              <select id="aspectRatio">
-                <option value="original">Original</option>
-                <option value="16:9">16:9 (Widescreen)</option>
-                <option value="4:3">4:3 (Standard)</option>
-                <option value="1:1">1:1 (Square)</option>
-                <option value="9:16">9:16 (Vertical)</option>
-              </select>
-            </div>
-            
-            <div class="setting-group">
-              <label for="bitrate">Bitrate</label>
-              <select id="bitrate">
-                <option value="auto">Auto</option>
-                <option value="high">High (Better quality)</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low (Smaller file)</option>
-              </select>
-            </div>
-            
-            <div class="setting-group">
-              <label>Audio Options</label>
-              <div class="checkbox-group">
-                <label class="toggle-switch">
-                  <input type="checkbox" id="mute-audio">
-                  <span class="slider"></span>
-                </label>
-                <label for="mute-audio">Mute Audio</label>
-              </div>
-              
-              <div class="checkbox-group">
-                <label class="toggle-switch">
-                  <input type="checkbox" id="normalize-audio">
-                  <span class="slider"></span>
-                </label>
-                <label for="normalize-audio">Normalize Audio</label>
-              </div>
-            </div>
-          </div>
-          
-          <button id="convertBtn" class="convert-btn" disabled>Convert Video</button>
-        </div>
-      </div>
-      
-      <div id="progressContainer" class="progress-container">
-        <div class="progress-header">
-          <span>Conversion Progress</span>
-          <span id="progressPercent">0%</span>
-        </div>
-        <div class="progress-bar">
-          <div id="progressFill" class="progress-fill"></div>
-        </div>
-        <p id="progressMessage" class="progress-message">Initializing conversion...</p>
-      </div>
-      
-      <div id="resultContainer" class="result-container">
-        <p>🎉 Conversion Complete!</p>
-        <a id="downloadLink" class="download-btn">Download Converted Video</a>
-      </div>
-    </div>
-    
-    <div class="sister-tools-section">
-      <h2>Try Our Other Free Tools</h2>
-      <p>All our tools process your data entirely in your browser, ensuring your files are never stored or uploaded, keeping your privacy completely secure.</p>
-      <a href="https://www.free-qr-maker.com" target="_blank" rel="noopener noreferrer" class="sister-site-btn">
-        Free QR Code Generator
-      </a>
-      <a href="https://www.free-ean-maker.com" target="_blank" rel="noopener noreferrer" class="sister-site-btn">
-        Free Barcode Generator
-      </a>
-      <a href="https://www.free-image-toolkit.com" target="_blank" rel="noopener noreferrer" class="sister-site-btn">
-        Free Image Toolkit
-      </a>
-    </div>
-    
-    <footer>
-      <p>Advanced Video Converter • Made with ❤️ • All processing happens in your browser - no server costs</p>
-    </footer>
+  <h1>Free Video Converter</h1>
+  <p>Instantly convert and download videos with advanced options!</p>
+
+  <div class="drop-zone" id="dropZone">
+    <p id="dropZoneText">Drop your video here or click to upload</p>
+    <p>Supported formats: MP4, WEBM, MOV, AVI, MKV</p>
+    <p>Max file size: 100MB</p>
+    <input type="file" id="videoInput" accept="video/*" class="hidden">
   </div>
+
+  <div id="fileInfo" class="file-info hidden">
+    <div class="file-detail"><span>Name:</span> <span id="fileName">-</span></div>
+    <div class="file-detail"><span>Size:</span> <span id="fileSize">-</span></div>
+    <div class="file-detail"><span>Type:</span> <span id="fileType">-</span></div>
+    <div class="file-detail"><span>Dimensions:</span> <span id="fileDimensions">-</span></div>
+  </div>
+
+  <div class="settings-grid">
+    <div class="setting-group">
+      <select id="inputFormat" disabled>
+        <option value="auto">Auto Detect</option>
+      </select>
+    </div>
+    <div class="setting-group">
+      <select id="outputFormat">
+        <option value="mp4">MP4</option>
+        <option value="webm">WEBM</option>
+        <option value="gif">GIF</option>
+      </select>
+    </div>
+    <div class="setting-group">
+      <select id="quality">
+        <option value="high">High</option>
+        <option value="medium" selected>Medium</option>
+        <option value="low">Low</option>
+      </select>
+    </div>
+    <div class="setting-group">
+      <select id="framerate">
+        <option value="original">Original</option>
+        <option value="30">30 fps</option>
+        <option value="25">25 fps</option>
+        <option value="24">24 fps</option>
+        <option value="15">15 fps</option>
+      </select>
+    </div>
+    <div class="setting-group">
+      <select id="resolution">
+        <option value="original">Original</option>
+        <option value="1080p">1080p (Full HD)</option>
+        <option value="720p">720p (HD)</option>
+        <option value="480p">480p (SD)</option>
+        <option value="360p">360p</option>
+      </select>
+    </div>
+    <div class="setting-group">
+      <select id="aspectRatio">
+        <option value="original">Original</option>
+        <option value="16:9">16:9 (Widescreen)</option>
+        <option value="4:3">4:3 (Standard)</option>
+        <option value="1:1">1:1 (Square)</option>
+        <option value="9:16">9:16 (Vertical)</option>
+      </select>
+    </div>
+    <div class="setting-group">
+      <select id="bitrate">
+        <option value="auto">Auto</option>
+        <option value="high">High (Better quality)</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low (Smaller file)</option>
+      </select>
+    </div>
+    <div class="setting-group">
+      <div class="toggle-container">
+        <label for="mute-audio">Mute Audio</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="mute-audio">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="toggle-container">
+        <label for="normalize-audio">Normalize Audio</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="normalize-audio">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <button id="convertBtn" disabled>Convert Video</button>
+
+  <div id="progressContainer" class="progress-container hidden">
+    <div class="progress-header">
+      <span>Conversion Progress</span>
+      <span id="progressPercent">0%</span>
+    </div>
+    <div class="progress-bar">
+      <div id="progressFill" class="progress-fill"></div>
+    </div>
+    <p id="progressMessage">Initializing conversion...</p>
+  </div>
+
+  <div id="resultContainer" class="result-container hidden">
+    <p>Conversion Complete!</p>
+    <a id="downloadLink" class="download-btn">Download Converted Video</a>
+  </div>
+
+  <hr style="margin: 2em auto; width: 80%; border: 0; border-top: 1px solid #ddd;" />
+
+  <div class="sister-tools-section">
+    <h2>Try Our Other Free Tools</h2>
+    <p>All our tools process your data entirely in your browser, ensuring your files are never stored or uploaded, keeping your privacy completely secure.</p>
+    <a href="https://www.free-qr-maker.com" target="_blank" rel="noopener noreferrer" class="sister-site-btn">
+      Free QR Code Generator
+    </a>
+    <a href="https://www.free-ean-maker.com" target="_blank" rel="noopener noreferrer" class="sister-site-btn">
+      Free Barcode Generator
+    </a>
+    <a href="https://www.free-image-toolkit.com" target="_blank" rel="noopener noreferrer" class="sister-site-btn">
+      Free Image Toolkit
+    </a>
+  </div>
+
+  <footer>
+    Free Video Converter. Made with ❤️
+  </footer>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -620,6 +413,7 @@
           'video/mp4', 'video/webm', 'video/quicktime', 
           'video/x-msvideo', 'video/x-matroska'
         ];
+大国
         const ext = '.' + file.name.split('.').pop().toLowerCase();
         
         if (!allowedTypes.includes(file.type) && 
@@ -634,7 +428,7 @@
         }
         
         uploadedFile = file;
-        dropZoneText.innerHTML = `✅ Ready to convert:<br><strong>${file.name}</strong>`;
+        dropZoneText.innerHTML = `Ready to convert:<br><strong>${file.name}</strong>`;
         fileInfo.classList.remove('hidden');
         fileName.textContent = file.name;
         fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
@@ -701,8 +495,8 @@
         
         conversionInProgress = true;
         convertBtn.disabled = true;
-        progressContainer.style.display = 'block';
-        resultContainer.style.display = 'none';
+        progressContainer.classList.remove('hidden');
+        resultContainer.classList.add('hidden');
         
         const outputFormat = document.getElementById('outputFormat').value;
         const quality = document.getElementById('quality').value;
@@ -816,7 +610,7 @@
             
             updateProgress(100, 'Conversion complete!');
             setTimeout(() => {
-              resultContainer.style.display = 'block';
+              resultContainer.classList.remove('hidden');
             }, 500);
             
             // Clean up
@@ -831,7 +625,7 @@
             alert(`Conversion error: ${e.error.name}`);
             conversionInProgress = false;
             convertBtn.disabled = false;
-            progressContainer.style.display = 'none';
+            progressContainer.classList.add('hidden');
             document.body.removeChild(videoElement);
             document.body.removeChild(canvas);
           };
@@ -859,7 +653,7 @@
           alert(`Conversion error: ${error.message}`);
           conversionInProgress = false;
           convertBtn.disabled = false;
-          progressContainer.style.display = 'none';
+          progressContainer.classList.add('hidden');
         }
       }
     });
