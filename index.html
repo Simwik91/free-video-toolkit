@@ -79,14 +79,17 @@
         return;
       }
 
-      const { createFFmpeg, fetchFile } = FFmpeg;
+      // Fixed: Use compatible syntax instead of destructuring
+      const createFFmpeg = FFmpeg.createFFmpeg;
+      const fetchFile = FFmpeg.fetchFile;
 
       const ffmpeg = createFFmpeg({
         log: true,
         corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js',
-        progress: ({ ratio }) => {
+        progress: function(p) {
+          const ratio = p.ratio;
           const pct = Math.round(ratio * 100);
-          updateProgress(pct, `Converting: ${pct}%`);
+          updateProgress(pct, 'Converting: ' + pct + '%');
         }
       });
 
@@ -106,14 +109,24 @@
       const downloadLink = document.getElementById('downloadLink');
 
       // Setup drag/drop and click
-      videoInput.addEventListener('change', e => e.target.files[0] && processFile(e.target.files[0]));
-      dropZone.addEventListener('click', () => videoInput.click());
-      dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('active'); });
-      dropZone.addEventListener('dragleave', e => { e.preventDefault(); dropZone.classList.remove('active'); });
-      dropZone.addEventListener('drop', e => {
+      videoInput.addEventListener('change', function(e) {
+        if (e.target.files[0]) processFile(e.target.files[0]);
+      });
+      dropZone.addEventListener('click', function() {
+        videoInput.click();
+      });
+      dropZone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        dropZone.classList.add('active');
+      });
+      dropZone.addEventListener('dragleave', function(e) {
         e.preventDefault();
         dropZone.classList.remove('active');
-        e.dataTransfer.files[0] && processFile(e.dataTransfer.files[0]);
+      });
+      dropZone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        dropZone.classList.remove('active');
+        if (e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]);
       });
       convertBtn.addEventListener('click', startConversion);
 
@@ -128,14 +141,14 @@
         }
         if (file.size > 100 * 1024 * 1024) return alert('File exceeds 100MB.');
         uploadedFile = file;
-        dropZoneText.textContent = `Selected: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+        dropZoneText.textContent = 'Selected: ' + file.name + ' (' + (file.size/1024/1024).toFixed(2) + ' MB)';
         convertBtn.disabled = false;
       }
 
       function updateProgress(percent, msg) {
-        progressFill.style.width = `${percent}%`;
+        progressFill.style.width = percent + '%';
         progressMessage.textContent = msg;
-        progressPercent.textContent = `${percent}%`;
+        progressPercent.textContent = percent + '%';
       }
 
       async function startConversion() {
@@ -149,8 +162,8 @@
         const quality = document.getElementById('quality').value;
         const muteAudio = document.getElementById('mute-audio').checked;
         const inputExt = uploadedFile.name.split('.').pop();
-        const inputName = `input.${inputExt}`;
-        const outputName = `output.${format}`;
+        const inputName = 'input.' + inputExt;
+        const outputName = 'output.' + format;
 
         try {
           updateProgress(10, 'Loading FFmpeg...');
@@ -160,7 +173,7 @@
           updateProgress(30, 'Writing file...');
           ffmpeg.FS('writeFile', inputName, await fetchFile(uploadedFile));
 
-          const args = ['-i', inputName];
+          var args = ['-i', inputName];
           if (quality === 'high') args.push('-crf', '18');
           else if (quality === 'medium') args.push('-crf', '23');
           else if (quality === 'low') args.push('-crf', '28');
@@ -168,20 +181,20 @@
           args.push(outputName);
 
           updateProgress(50, 'Converting...');
-          await ffmpeg.run(...args);
+          await ffmpeg.run.apply(ffmpeg, args);
           updateProgress(90, 'Preparing download...');
 
           const data = ffmpeg.FS('readFile', outputName);
-          const blob = new Blob([data.buffer], { type: `video/${format}` });
+          const blob = new Blob([data.buffer], { type: 'video/' + format });
           const url = URL.createObjectURL(blob);
           downloadLink.href = url;
-          downloadLink.download = `converted.${format}`;
+          downloadLink.download = 'converted.' + format;
           resultContainer.style.display = 'block';
           updateProgress(100, 'Done');
         } catch (e) {
           console.error('Conversion error:', e);
           updateProgress(0, 'Conversion failed');
-          alert(`Conversion error: ${e.message}`);
+          alert('Conversion error: ' + e.message);
         } finally {
           conversionInProgress = false;
           convertBtn.disabled = false;
