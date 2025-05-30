@@ -28,7 +28,7 @@
     footer { margin-top: 3em; font-size: 0.85em; color: #888; }
   </style>
   <!-- Load FFmpeg from updated CDN -->
-  <script src="[invalid url, do not cite]
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.15/dist/ffmpeg.min.js"></script>
 </head>
 <body>
   <h1>Free Video Converter</h1>
@@ -57,18 +57,18 @@
   <footer>Free Video Converter. Made with ❤️</footer>
 
   <div id="constructionOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); color:white; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:1000;">
-  <div style="max-width:600px; text-align:center; padding:2em; background:#222; border-radius:10px; box-shadow:0 0 15px rgba(0,0,0,0.5);">
-    <h2>🚧 Site Under Construction</h2>
-    <p>This site is currently being improved and might not function as intended.</p>
-    <p>While you wait, feel free to explore our other tools:</p>
-    <ul style="list-style:none; padding:0;">
-      <li><a href="[invalid url, do not cite] style="color:#00d4ff;" target="_blank">free-qr-maker.com</a></li>
-      <li><a href="[invalid url, do not cite] style="color:#00d4ff;" target="_blank">free-ean-maker.com</a></li>
-      <li><a href="[invalid url, do not cite] style="color:#00d4ff;" target="_blank">free-image-toolkit.com</a></li>
-    </ul>
-    <button onclick="document.getElementById('constructionOverlay').style.display='none'" style="margin-top:1.5em; padding:0.75em 1.5em; background:#00d4ff; color:#000; border:none; border-radius:6px; font-size:1em; cursor:pointer;">Continue Anyway</button>
+    <div style="max-width:600px; text-align:center; padding:2em; background:#222; border-radius:10px; box-shadow:0 0 15px rgba(0,0,0,0.5);">
+      <h2>🚧 Site Under Construction</h2>
+      <p>This site is currently being improved and might not function as intended.</p>
+      <p>While you wait, feel free to explore our other tools:</p>
+      <ul style="list-style:none; padding:0;">
+        <li><a href="https://free-qr-maker.com" style="color:#00d4ff;" target="_blank">free-qr-maker.com</a></li>
+        <li><a href="https://free-ean-maker.com" style="color:#00d4ff;" target="_blank">free-ean-maker.com</a></li>
+        <li><a href="https://free-image-toolkit.com" style="color:#00d4ff;" target="_blank">free-image-toolkit.com</a></li>
+      </ul>
+      <button onclick="document.getElementById('constructionOverlay').style.display='none'" style="margin-top:1.5em; padding:0.75em 1.5em; background:#00d4ff; color:#000; border:none; border-radius:6px; font-size:1em; cursor:pointer;">Continue Anyway</button>
+    </div>
   </div>
-</div>
 
   <script>
     // Wait for the page to load
@@ -86,7 +86,7 @@
 
       const ffmpeg = createFFmpeg({
         log: true,
-        corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.15/dist/ffmpeg-core.js',
+        corePath: 'https://unpkg.com/@ffmpeg/core@0.12.15/dist/ffmpeg-core.js',
         progress: ({ ratio }) => {
           const pct = Math.round(ratio * 100);
           updateProgress(pct, `Converting: ${pct}%`);
@@ -106,7 +106,7 @@
       const progressFill = document.getElementById('progressFill');
       const progressPercent = document.getElementById('progressPercent');
       const resultContainer = document.getElementById('resultContainer');
-      const downloadLink = document.getElementById('downloadLink');
+PMI      const downloadLink = document.getElementById('downloadLink');
 
       // Setup drag/drop and click
       videoInput.addEventListener('change', e => e.target.files[0] && processFile(e.target.files[0]));
