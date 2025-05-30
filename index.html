@@ -3,8 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Convert videos online for free. Create and download converted videos instantly. Simple, fast, and no signup required.">
-  <title>Free Video Converter</title>
+  <meta name="description" content="Free online video converter to MP4, WEBM, or GIF. Convert videos instantly in your browser with advanced settings for quality, resolution, and more. No signup required.">
+  <meta name="keywords" content="video converter, free video converter, online video converter, convert video to mp4, convert video to webm, convert video to gif, video conversion tool">
+  <meta name="author" content="Free Video Converter">
+  <meta property="og:title" content="Free Video Converter - Convert Videos Online Instantly">
+  <meta property="og:description" content="Convert videos to MP4, WEBM, or GIF for free with advanced options. No signup, no server uploads, all processing in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.free-video-converter.com">
+  <meta property="og:image" content="https://www.free-video-converter.com/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free Video Converter - Instant Video Conversion">
+  <meta name="twitter:description" content="Convert videos to MP4, WEBM, or GIF with customizable settings. Free, fast, and secure in-browser processing.">
+  <meta name="twitter:image" content="https://www.free-video-converter.com/og-image.jpg">
+  <title>Free Video Converter - Instant Online Video Conversion</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR5XP1GJFC"></script>
   <script>
@@ -12,6 +23,17 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-LR5XP1GJFC');
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Free Video Converter",
+      "description": "Free online video converter to MP4, WEBM, or GIF with advanced settings for quality, resolution, and more. No signup required.",
+      "url": "https://www.free-video-converter.com",
+      "applicationCategory": "Multimedia",
+      "operatingSystem": "All"
+    }
   </script>
   <style>
     body {
@@ -29,6 +51,16 @@
       margin-top: 0;
       margin-bottom: 2em;
       color: #666;
+    }
+    .description {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 0.5em;
+      text-align: left;
+      width: 90%;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
     }
     input[type="text"], input[type="file"], button, select {
       margin: 0.5em auto;
@@ -233,10 +265,10 @@
   <p>Instantly convert and download videos with advanced options!</p>
 
   <div class="drop-zone" id="dropZone">
-    <p id="dropZoneText">Drop your video here or click to upload</p>
+    <p id="dropZoneText"><span alt="Upload icon">📁</span> Drop your video here or click to upload</p>
     <p>Supported formats: MP4, WEBM, MOV, AVI, MKV</p>
     <p>Max file size: 100MB</p>
-    <input type="file" id="videoInput" accept="video/*" class="hidden">
+    <input type="file" id="videoInput" accept="video/mp4,video/webm,video/quicktime,video/x-msvideo,video/x-matroska" class="hidden">
   </div>
 
   <div id="fileInfo" class="file-info hidden">
@@ -248,11 +280,13 @@
 
   <div class="settings-grid">
     <div class="setting-group">
+      <p class="description">Input format is automatically detected from your uploaded video file.</p>
       <select id="inputFormat" disabled>
         <option value="auto">Auto Detect</option>
       </select>
     </div>
     <div class="setting-group">
+      <p class="description">Choose the output format for your converted video (MP4, WEBM, or GIF).</p>
       <select id="outputFormat">
         <option value="mp4">MP4</option>
         <option value="webm">WEBM</option>
@@ -260,6 +294,7 @@
       </select>
     </div>
     <div class="setting-group">
+      <p class="description">Select video quality to balance file size and clarity.</p>
       <select id="quality">
         <option value="high">High</option>
         <option value="medium" selected>Medium</option>
@@ -267,6 +302,7 @@
       </select>
     </div>
     <div class="setting-group">
+      <p class="description">Set the frame rate for your video or keep the original.</p>
       <select id="framerate">
         <option value="original">Original</option>
         <option value="30">30 fps</option>
@@ -276,6 +312,7 @@
       </select>
     </div>
     <div class="setting-group">
+      <p class="description">Choose a resolution for your video or maintain the original size.</p>
       <select id="resolution">
         <option value="original">Original</option>
         <option value="1080p">1080p (Full HD)</option>
@@ -285,6 +322,7 @@
       </select>
     </div>
     <div class="setting-group">
+      <p class="description">Select an aspect ratio to adjust the video's dimensions.</p>
       <select id="aspectRatio">
         <option value="original">Original</option>
         <option value="16:9">16:9 (Widescreen)</option>
@@ -294,6 +332,7 @@
       </select>
     </div>
     <div class="setting-group">
+      <p class="description">Choose bitrate to control video quality and file size.</p>
       <select id="bitrate">
         <option value="auto">Auto</option>
         <option value="high">High (Better quality)</option>
@@ -302,6 +341,7 @@
       </select>
     </div>
     <div class="setting-group">
+      <p class="description">Toggle audio settings for your video.</p>
       <div class="toggle-container">
         <label for="mute-audio">Mute Audio</label>
         <label class="toggle-switch">
@@ -358,108 +398,119 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', () => {
       // Element references
-      const dropZone = document.getElementById('dropZone');
-      const videoInput = document.getElementById('videoInput');
-      const dropZoneText = document.getElementById('dropZoneText');
-      const fileInfo = document.getElementById('fileInfo');
-      const fileName = document.getElementById('fileName');
-      const fileSize = document.getElementById('fileSize');
-      const fileType = document.getElementById('fileType');
-      const fileDimensions = document.getElementById('fileDimensions');
-      const convertBtn = document.getElementById('convertBtn');
-      const progressContainer = document.getElementById('progressContainer');
-      const progressMessage = document.getElementById('progressMessage');
-      const progressFill = document.getElementById('progressFill');
-      const progressPercent = document.getElementById('progressPercent');
-      const resultContainer = document.getElementById('resultContainer');
-      const downloadLink = document.getElementById('downloadLink');
-      
-      let uploadedFile = null;
-      let mediaRecorder = null;
-      let recordedChunks = [];
-      let conversionInProgress = false;
-      let originalVideoWidth = 0;
-      let originalVideoHeight = 0;
-      
-      // Setup drag/drop and click
-      videoInput.addEventListener('change', e => {
+      const refs = {
+        dropZone: document.getElementById('dropZone'),
+        videoInput: document.getElementById('videoInput'),
+        dropZoneText: document.getElementById('dropZoneText'),
+        fileInfo: document.getElementById('fileInfo'),
+        fileName: document.getElementById('fileName'),
+        fileSize: document.getElementById('fileSize'),
+        fileType: document.getElementById('fileType'),
+        fileDimensions: document.getElementById('fileDimensions'),
+        convertBtn: document.getElementById('convertBtn'),
+        progressContainer: document.getElementById('progressContainer'),
+        progressMessage: document.getElementById('progressMessage'),
+        progressFill: document.getElementById('progressFill'),
+        progressPercent: document.getElementById('progressPercent'),
+        resultContainer: document.getElementById('resultContainer'),
+        downloadLink: document.getElementById('downloadLink')
+      };
+
+      let state = {
+        uploadedFile: null,
+        mediaRecorder: null,
+        recordedChunks: [],
+        conversionInProgress: false,
+        originalVideoWidth: 0,
+        originalVideoHeight: 0,
+        videoElement: null,
+        canvas: null,
+        stream: null
+      };
+
+      // Setup event listeners
+      refs.videoInput.addEventListener('change', e => {
         if (e.target.files[0]) processFile(e.target.files[0]);
       });
-      
-      dropZone.addEventListener('click', () => videoInput.click());
-      
-      dropZone.addEventListener('dragover', e => {
+
+      refs.dropZone.addEventListener('click', () => refs.videoInput.click());
+
+      refs.dropZone.addEventListener('dragover', e => {
         e.preventDefault();
-        dropZone.classList.add('active');
+        refs.dropZone.classList.add('active');
       });
-      
-      dropZone.addEventListener('dragleave', e => {
+
+      refs.dropZone.addEventListener('dragleave', e => {
         e.preventDefault();
-        dropZone.classList.remove('active');
+        refs.dropZone.classList.remove('active');
       });
-      
-      dropZone.addEventListener('drop', e => {
+
+      refs.dropZone.addEventListener('drop', e => {
         e.preventDefault();
-        dropZone.classList.remove('active');
+        refs.dropZone.classList.remove('active');
         if (e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]);
       });
-      
-      convertBtn.addEventListener('click', startConversion);
-      
+
+      refs.convertBtn.addEventListener('click', startConversion);
+
       async function processFile(file) {
         const allowedTypes = [
-          'video/mp4', 'video/webm', 'video/quicktime', 
+          'video/mp4', 'video/webm', 'video/quicktime',
           'video/x-msvideo', 'video/x-matroska'
         ];
-大国
+        const allowedExtensions = ['.mp4', '.webm', '.mov', '.avi', '.mkv'];
         const ext = '.' + file.name.split('.').pop().toLowerCase();
-        
-        if (!allowedTypes.includes(file.type) && 
-            !['.mp4','.webm','.mov','.avi','.mkv'].includes(ext)) {
-          alert('Unsupported video format. Please upload a video file.');
+
+        if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(ext)) {
+          alert('Unsupported video format. Please upload MP4, WEBM, MOV, AVI, or MKV.');
           return;
         }
-        
+
         if (file.size > 100 * 1024 * 1024) {
           alert('File exceeds 100MB limit. Please choose a smaller file.');
           return;
         }
-        
-        uploadedFile = file;
-        dropZoneText.innerHTML = `Ready to convert:<br><strong>${file.name}</strong>`;
-        fileInfo.classList.remove('hidden');
-        fileName.textContent = file.name;
-        fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
-        fileType.textContent = file.type || 'Unknown';
-        
-        // Detect video dimensions
-        const video = document.createElement('video');
-        video.src = URL.createObjectURL(file);
-        video.style.display = 'none';
-        document.body.appendChild(video);
-        
-        await new Promise((resolve) => {
-          video.onloadedmetadata = () => {
-            originalVideoWidth = video.videoWidth;
-            originalVideoHeight = video.videoHeight;
-            fileDimensions.textContent = `${originalVideoWidth}×${originalVideoHeight}`;
-            document.body.removeChild(video);
-            resolve();
-          };
-        });
-        
-        convertBtn.disabled = false;
+
+        state.uploadedFile = file;
+        refs.dropZoneText.innerHTML = `Ready to convert:<br><strong>${file.name}</strong>`;
+        refs.fileInfo.classList.remove('hidden');
+        refs.fileName.textContent = file.name;
+        refs.fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+        refs.fileType.textContent = file.type || 'Unknown';
+
+        try {
+          const video = document.createElement('video');
+          video.src = URL.createObjectURL(file);
+          video.style.display = 'none';
+          document.body.appendChild(video);
+
+          await new Promise((resolve, reject) => {
+            video.onloadedmetadata = () => {
+              state.originalVideoWidth = video.videoWidth;
+              state.originalVideoHeight = video.videoHeight;
+              refs.fileDimensions.textContent = `${state.originalVideoWidth}×${state.originalVideoHeight}`;
+              document.body.removeChild(video);
+              resolve();
+            };
+            video.onerror = reject;
+          });
+
+          refs.convertBtn.disabled = false;
+        } catch (error) {
+          alert('Error processing video file. Please try another file.');
+          cleanup();
+        }
       }
-      
+
       function updateProgress(percent, msg) {
         const percentValue = Math.min(100, Math.max(0, percent));
-        progressFill.style.width = `${percentValue}%`;
-        progressMessage.textContent = msg;
-        progressPercent.textContent = `${Math.round(percentValue)}%`;
+        refs.progressFill.style.width = `${percentValue}%`;
+        refs.progressMessage.textContent = msg;
+        refs.progressPercent.textContent = `${Math.round(percentValue)}%`;
       }
-      
+
       function getResolutionDimensions(resolution) {
         const resolutions = {
           '1080p': { width: 1920, height: 1080 },
@@ -469,70 +520,90 @@
         };
         return resolutions[resolution] || null;
       }
-      
+
       function getAspectRatioDimensions(aspectRatio, width, height) {
         const [ratioW, ratioH] = aspectRatio.split(':').map(Number);
         const targetRatio = ratioW / ratioH;
         const currentRatio = width / height;
-        
+
         if (Math.abs(currentRatio - targetRatio) < 0.01) {
           return { width, height };
         }
-        
+
         if (currentRatio > targetRatio) {
-          // Current is wider than target - crop horizontally
           const newWidth = Math.round(height * targetRatio);
           return { width: newWidth, height };
         } else {
-          // Current is taller than target - crop vertically
           const newHeight = Math.round(width / targetRatio);
           return { width, height: newHeight };
         }
       }
-      
+
+      function cleanup() {
+        if (state.videoElement) {
+          state.videoElement.pause();
+          document.body.removeChild(state.videoElement);
+          state.videoElement = null;
+        }
+        if (state.canvas) {
+          document.body.removeChild(state.canvas);
+          state.canvas = null;
+        }
+        if (state.stream) {
+          state.stream.getTracks().forEach(track => track.stop());
+          state.stream = null;
+        }
+        if (state.mediaRecorder) {
+          state.mediaRecorder.stop();
+          state.mediaRecorder = null;
+        }
+        state.recordedChunks = [];
+        state.conversionInProgress = false;
+        refs.convertBtn.disabled = state.uploadedFile ? false : true;
+        refs.progressContainer.classList.add('hidden');
+      }
+
       async function startConversion() {
-        if (!uploadedFile || conversionInProgress) return;
-        
-        conversionInProgress = true;
-        convertBtn.disabled = true;
-        progressContainer.classList.remove('hidden');
-        resultContainer.classList.add('hidden');
-        
+        if (!state.uploadedFile || state.conversionInProgress) return;
+
+        state.conversionInProgress = true;
+        refs.convertBtn.disabled = true;
+        refs.progressContainer.classList.remove('hidden');
+        refs.resultContainer.classList.add('hidden');
+
         const outputFormat = document.getElementById('outputFormat').value;
         const quality = document.getElementById('quality').value;
         const framerate = document.getElementById('framerate').value;
         const resolution = document.getElementById('resolution').value;
         const aspectRatio = document.getElementById('aspectRatio').value;
         const muteAudio = document.getElementById('mute-audio').checked;
-        
+
         try {
           updateProgress(10, 'Processing video file...');
-          
+
           // Create video element
-          const videoElement = document.createElement('video');
-          videoElement.muted = muteAudio;
-          videoElement.src = URL.createObjectURL(uploadedFile);
-          videoElement.style.display = 'none';
-          document.body.appendChild(videoElement);
-          
-          // Wait for video to load
+          state.videoElement = document.createElement('video');
+          state.videoElement.muted = muteAudio;
+          state.videoElement.src = URL.createObjectURL(state.uploadedFile);
+          state.videoElement.style.display = 'none';
+          document.body.appendChild(state.videoElement);
+
           await new Promise((resolve, reject) => {
-            videoElement.onloadedmetadata = resolve;
-            videoElement.onerror = reject;
+            state.videoElement.onloadedmetadata = resolve;
+            state.videoElement.onerror = () => reject(new Error('Failed to load video metadata'));
           });
-          
+
           updateProgress(20, 'Applying settings...');
-          
-          // Create canvas for advanced processing
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          document.body.appendChild(canvas);
-          
+
+          // Create canvas
+          state.canvas = document.createElement('canvas');
+          const ctx = state.canvas.getContext('2d');
+          document.body.appendChild(state.canvas);
+
           // Determine output dimensions
-          let outputWidth = originalVideoWidth;
-          let outputHeight = originalVideoHeight;
-          
-          // Apply resolution setting
+          let outputWidth = state.originalVideoWidth;
+          let outputHeight = state.originalVideoHeight;
+
           if (resolution !== 'original') {
             const resDimensions = getResolutionDimensions(resolution);
             if (resDimensions) {
@@ -540,120 +611,86 @@
               outputHeight = resDimensions.height;
             }
           }
-          
-          // Apply aspect ratio
+
           if (aspectRatio !== 'original') {
-            const aspectDimensions = getAspectRatioDimensions(
-              aspectRatio, 
-              outputWidth, 
-              outputHeight
-            );
+            const aspectDimensions = getAspectRatioDimensions(aspectRatio, outputWidth, outputHeight);
             outputWidth = aspectDimensions.width;
             outputHeight = aspectDimensions.height;
           }
-          
-          // Set canvas dimensions
-          canvas.width = outputWidth;
-          canvas.height = outputHeight;
-          
+
+          state.canvas.width = outputWidth;
+          state.canvas.height = outputHeight;
+
           // Draw video to canvas
-          videoElement.addEventListener('play', () => {
+          state.videoElement.addEventListener('play', () => {
             function drawFrame() {
-              if (videoElement.paused || videoElement.ended) return;
-              
-              // Draw video frame to canvas
-              ctx.drawImage(videoElement, 0, 0, outputWidth, outputHeight);
-              
+              if (state.videoElement.paused || state.videoElement.ended) return;
+              ctx.drawImage(state.videoElement, 0, 0, outputWidth, outputHeight);
               requestAnimationFrame(drawFrame);
             }
-            
             drawFrame();
           });
-          
-          // Set up MediaRecorder with canvas stream
-          const stream = canvas.captureStream(
-            framerate === 'original' ? null : parseInt(framerate)
-          );
-          recordedChunks = [];
-          
-          let options = { mimeType: `video/${outputFormat}` };
-          
-          // Quality settings
-          if (quality === 'high') {
-            options.videoBitsPerSecond = 2500000; // 2.5 Mbps
-          } else if (quality === 'medium') {
-            options.videoBitsPerSecond = 1000000; // 1 Mbps
-          } else {
-            options.videoBitsPerSecond = 500000; // 0.5 Mbps
-          }
-          
-          // Handle audio
-          if (!muteAudio) {
-            options.audioBitsPerSecond = 128000; // 128 Kbps
-          }
-          
-          mediaRecorder = new MediaRecorder(stream, options);
-          
-          mediaRecorder.ondataavailable = e => {
-            if (e.data.size > 0) {
-              recordedChunks.push(e.data);
-            }
+
+          // Set up MediaRecorder
+          state.stream = state.canvas.captureStream(framerate === 'original' ? 30 : parseInt(framerate));
+          state.recordedChunks = [];
+
+          const options = {
+            mimeType: `video/${outputFormat}`,
+            videoBitsPerSecond: quality === 'high' ? 2500000 : quality === 'medium' ? 1000000 : 500000,
+            audioBitsPerSecond: muteAudio ? undefined : 128000
           };
-          
-          mediaRecorder.onstop = () => {
-            const blob = new Blob(recordedChunks, { type: `video/${outputFormat}` });
+
+          state.mediaRecorder = new MediaRecorder(state.stream, options);
+
+          state.mediaRecorder.ondataavailable = e => {
+            if (e.data.size > 0) state.recordedChunks.push(e.data);
+          };
+
+          state.mediaRecorder.onstop = () => {
+            const blob = new Blob(state.recordedChunks, { type: `video/${outputFormat}` });
             const url = URL.createObjectURL(blob);
-            
-            downloadLink.href = url;
-            downloadLink.download = `converted.${outputFormat}`;
-            downloadLink.textContent = `Download ${outputFormat.toUpperCase()} (${(blob.size / 1024 / 1024).toFixed(1)}MB)`;
-            
+
+            refs.downloadLink.href = url;
+            refs.downloadLink.download = `converted.${outputFormat}`;
+            refs.downloadLink.textContent = `Download ${outputFormat.toUpperCase()} (${(blob.size / 1024 / 1024).toFixed(1)}MB)`;
+
             updateProgress(100, 'Conversion complete!');
             setTimeout(() => {
-              resultContainer.classList.remove('hidden');
+              refs.resultContainer.classList.remove('hidden');
             }, 500);
-            
-            // Clean up
-            document.body.removeChild(videoElement);
-            document.body.removeChild(canvas);
-            stream.getTracks().forEach(track => track.stop());
-            conversionInProgress = false;
+
+            cleanup();
           };
-          
-          mediaRecorder.onerror = e => {
+
+          state.mediaRecorder.onerror = e => {
             console.error('MediaRecorder error:', e);
-            alert(`Conversion error: ${e.error.name}`);
-            conversionInProgress = false;
-            convertBtn.disabled = false;
-            progressContainer.classList.add('hidden');
-            document.body.removeChild(videoElement);
-            document.body.removeChild(canvas);
+            alert(`Conversion error: ${e.error?.name || 'Unknown error'}`);
+            cleanup();
           };
-          
+
           // Start recording
-          mediaRecorder.start();
-          videoElement.play();
-          
+          state.mediaRecorder.start();
+          state.videoElement.play();
+
           updateProgress(30, 'Converting video...');
-          
-          // Update progress based on video playback
-          const duration = videoElement.duration;
+
+          // Update progress
+          const duration = state.videoElement.duration;
           const progressInterval = setInterval(() => {
-            if (videoElement.ended) {
+            if (state.videoElement.ended) {
               clearInterval(progressInterval);
-              mediaRecorder.stop();
+              if (state.mediaRecorder) state.mediaRecorder.stop();
             } else {
-              const percent = 30 + (videoElement.currentTime / duration) * 70;
-              updateProgress(percent, `Converting: ${Math.round(videoElement.currentTime)}s of ${Math.round(duration)}s`);
+              const percent = 30 + (state.videoElement.currentTime / duration) * 70;
+              updateProgress(percent, `Converting: ${Math.round(state.videoElement.currentTime)}s of ${Math.round(duration)}s`);
             }
           }, 500);
-          
+
         } catch (error) {
           console.error('Conversion error:', error);
-          alert(`Conversion error: ${error.message}`);
-          conversionInProgress = false;
-          convertBtn.disabled = false;
-          progressContainer.classList.add('hidden');
+          alert(`Conversion error: ${error.message || 'Unknown error'}`);
+          cleanup();
         }
       }
     });
