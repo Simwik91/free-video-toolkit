@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://free-video-toolkit.com/sitemap.xml
