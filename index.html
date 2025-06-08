@@ -8,12 +8,13 @@
   <meta name="author" content="Free Video Toolkit">
   <meta name="robots" content="index, follow">
   <meta name="googlebot" content="index, follow">
-  <meta property="og:title" content="Free Video Toolkit - Free Online Video Converter">
-  <meta property="og:description" content="Convert videos to MP4, WEBM, or GIF for free with advanced options. No signup, no server uploads, all processing in your browser.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://free-video-toolkit.com">
+  <meta property="og:title" content="Free Video Toolkit - Free Online Video Converter">
+  <meta property="og:description" content="Convert videos to MP4, WEBM, or GIF with customizable settings. Free, fast, and secure in-browser processing.">
   <meta property="og:image" content="https://free-video-toolkit.com/images/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://free-video-toolkit.com">
   <meta name="twitter:title" content="Free Video Toolkit - Free Online Video Converter">
   <meta name="twitter:description" content="Convert videos to MP4, WEBM, or GIF with customizable settings. Free, fast, and secure in-browser processing.">
   <meta name="twitter:image" content="https://free-video-toolkit.com/images/twitter-image.jpg">
@@ -27,8 +28,9 @@
     gtag('js', new Date());
     gtag('config', 'G-LR5XP1GJFC');
   </script>
-  <!-- Load AdSense script once -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4041775163958551" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -39,117 +41,318 @@
     }
   </script>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      padding: 2em;
-      background: #f4f4f4;
-      color: #333;
-      margin: 0;
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
     }
-    h1 {
-      font-size: 2em;
-      margin-bottom: 0.2em;
-    }
-    p {
-      margin-top: 0;
-      margin-bottom: 2em;
-      color: #666;
-    }
-    .description {
-      font-size: 0.9em;
-      color: #666;
-      margin-bottom: 0.5em;
-      text-align: left;
-      width: 90%;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    input[type="text"], input[type="file"], button, select {
-      margin: 0.5em auto;
-      padding: 0.75em;
-      width: 90%;
-      max-width: 400px;
-      font-size: 1em;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+    * {
       box-sizing: border-box;
-      display: block;
+      margin: 0;
+      padding: 0;
     }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7ff 0%, #f0f4ff 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 0 20px;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: var(--dark);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      color: var(--gray);
+      max-width: 700px;
+      margin: 0 auto 25px;
+    }
+
+    .card {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: var(--dark);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2 i {
+      color: var(--primary);
+    }
+
+    h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 30px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 12px 25px;
+      cursor: pointer;
+      background: var(--light-gray);
+      border-radius: 50px;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+    }
+
+    .tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .tab:hover:not(.active) {
+      background: #dbe4ff;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fade-in 0.4s ease;
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    input, select, button {
+      margin: 0.5em auto;
+      padding: 15px;
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--light-gray);
+      background: white;
+      display: block;
+      transition: var(--transition);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
     button {
-      background-color: #007acc;
+      background: var(--primary);
       color: white;
       border: none;
       cursor: pointer;
+      font-weight: 600;
+      padding: 15px 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
-    button:hover {
-      background-color: #005fa3;
+
+    button:hover:not(:disabled) {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
     }
+
     button:disabled {
       background: #9ec5e6;
       cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
-    .drop-zone {
-      border: 2px dashed #007acc;
-      border-radius: 6px;
-      padding: 2rem 1rem;
-      margin: 0.5em auto;
-      width: 90%;
-      max-width: 400px;
-      background: rgba(0, 122, 204, 0.03);
-      transition: all 0.3s ease;
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 30px;
     }
-    .drop-zone:hover, .drop-zone.active {
-      background: rgba(0, 122, 204, 0.08);
-      border-color: #005fa3;
+
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: var(--primary);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
     }
-    .drop-zone p {
-      margin: 0.4rem 0;
-      color: #666;
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
+
+    .error {
+      color: #e74c3c;
+      padding: 15px;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #e74c3c;
+    }
+
+    .success {
+      color: #27ae60;
+      padding: 15px;
+      background: rgba(39, 174, 96, 0.1);
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+      border-left: 4px solid #27ae60;
+    }
+
+    .drag-drop-area {
+      width: 100%;
+      max-width: 500px;
+      margin: 2em auto;
+      padding: 2em;
+      border: 2px dashed var(--light-gray);
+      border-radius: var(--border-radius);
+      background: white;
+      color: var(--gray);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .drag-drop-area.drag-over {
+      background: #e6f0fa;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .drag-drop-area p {
+      margin: 0.5em 0;
+    }
+
     .file-info {
+      width: 100%;
+      max-width: 500px;
       margin: 1em auto;
-      width: 90%;
-      max-width: 400px;
+      padding: 15px;
+      background: var(--light);
+      border-radius: var(--border-radius);
       text-align: left;
     }
+
     .file-detail {
       display: flex;
       justify-content: space-between;
       margin: 0.3rem 0;
       font-size: 0.9rem;
     }
+
     .settings-grid {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 1em auto;
-      width: 90%;
-      max-width: 400px;
-    }
-    .setting-group {
       width: 100%;
-      margin-bottom: 1rem;
+      max-width: 500px;
+      margin: 1em auto;
     }
+
+    .setting-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .description {
+      font-size: 0.9em;
+      color: var(--gray);
+      margin-bottom: 0.5em;
+    }
+
     .toggle-container {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.5em;
-      margin: 1em auto;
+      justify-content: space-between;
+      margin: 0.5em 0;
     }
+
     .toggle-switch {
       position: relative;
       width: 50px;
       height: 26px;
     }
+
     .toggle-switch input {
       opacity: 0;
       width: 0;
       height: 0;
     }
+
     .slider {
       position: absolute;
       cursor: pointer;
@@ -157,10 +360,11 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #ccc;
+      background-color: var(--gray);
       border-radius: 26px;
-      transition: 0.4s;
+      transition: var(--transition);
     }
+
     .slider:before {
       position: absolute;
       content: "";
@@ -170,582 +374,843 @@
       bottom: 3px;
       background-color: white;
       border-radius: 50%;
-      transition: 0.4s;
+      transition: var(--transition);
     }
+
     .toggle-switch input:checked + .slider {
-      background-color: #007acc;
+      background-color: var(--primary);
     }
+
     .toggle-switch input:checked + .slider:before {
       transform: translateX(24px);
     }
+
     .progress-container {
+      width: 100%;
+      max-width: 500px;
       margin: 1.5em auto;
-      width: 90%;
-      max-width: 400px;
+      padding: 15px;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      display: none;
     }
+
     .progress-header {
       display: flex;
       justify-content: space-between;
       margin-bottom: 0.5rem;
       font-size: 0.95rem;
     }
+
     .progress-bar {
       height: 10px;
-      background: #e9ecef;
+      background: var(--light-gray);
       border-radius: 5px;
       overflow: hidden;
     }
+
     .progress-fill {
       height: 100%;
       width: 0;
-      background: linear-gradient(90deg, #007acc, #00a8ff);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
       border-radius: 5px;
       transition: width 0.4s ease;
     }
+
     .result-container {
+      width: 100%;
+      max-width: 500px;
       margin: 1.5em auto;
-      width: 90%;
-      max-width: 400px;
       padding: 1.2rem;
-      background: rgba(40, 167, 69, 0.08);
-      border: 1px dashed #28a745;
-      border-radius: 6px;
-    }
-    .download-btn {
-      display: block;
-      background: #28a745;
-      color: white;
-      padding: 0.75em 1.5em;
-      margin: 1em auto;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
-    .download-btn:hover {
-      background-color: #218838;
-    }
-    .sister-site-btn {
-      display: block;
-      background: #ff6600;
-      color: white;
-      padding: 0.75em 1.5em;
-      margin: 1em auto;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-      transition: max-width 0.3s ease;
-    }
-    .sister-site-btn:hover {
-      background-color: #cc5200;
-    }
-    .sister-tools-section {
-      margin: 2em auto;
-    }
-    .sister-tools-section h2 {
-      font-size: 1.8em;
-      color: #333;
-    }
-    .sister-tools-section p {
-      margin-bottom: 1em;
-      max-width: 600px;
-      margin: 1em auto;
-    }
-    footer {
-      margin-top: 3em;
-      font-size: 0.85em;
-      color: #888;
-    }
-    .hidden {
+      background: rgba(39, 174, 96, 0.08);
+      border: 1px dashed #27ae60;
+      border-radius: var(--border-radius);
       display: none;
     }
+
+    .download-btn {
+      background: #27ae60;
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+    }
+
+    .download-btn:hover {
+      background: #219653;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+    }
+
     .ad-container {
-      margin: 1em auto;
+      margin: 30px auto;
       max-width: 100%;
       text-align: center;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      background: white;
+      padding: 15px;
+      box-shadow: var(--box-shadow);
     }
-    @media (max-width: 600px) {
-      .ad-container {
-        width: 100%;
+
+    .ad-label {
+      font-size: 0.8rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .features-section {
+      margin: 40px auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 25px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      background: #f0f4ff;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+
+    .feature-card p {
+      margin-bottom: 20px;
+      color: var(--gray);
+    }
+
+    .sister-tools-section {
+      margin: 40px auto;
+    }
+
+    .sister-tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 25px;
+    }
+
+    .sister-tool {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+
+    .sister-tool:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .sister-tool i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      background: #f0f4ff;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+    }
+
+    .sister-tool h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+
+    .sister-tool p {
+      margin-bottom: 20px;
+      color: var(--gray);
+    }
+
+    .sister-tool-btn {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .sister-tool-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    footer {
+      margin-top: 50px;
+      padding-top: 30px;
+      font-size: 0.9rem;
+      color: var(--gray);
+      border-top: 1px solid var(--light-gray);
+      text-align: center;
+    }
+
+    footer p {
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .tab {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 15px;
+      }
+
+      header {
+        padding: 20px 0 10px;
+      }
+
+      .logo {
+        font-size: 2.2rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
       }
     }
   </style>
 </head>
 <body>
-  <h1>Free Video Toolkit</h1>
-  <div class="ad-container">
-    <!-- Header_AD -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-4041775163958551"
-         data-ad-slot="1294132268"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
-  <p>Instantly convert and download videos with advanced options!</p>
-
-  <div class="drop-zone" id="dropZone">
-    <p id="dropZoneText"><span alt="Upload icon">📁</span> Choose file or drag and drop here</p>
-    <p>Supported formats: MP4, WEBM, MOV, AVI, MKV</p>
-    <p>Max file size: 100MB</p>
-    <input type="file" id="videoInput" accept="video/mp4,video/webm,video/quicktime,video/x-msvideo,video/x-matroska" class="hidden">
-  </div>
-
-  <div id="fileInfo" class="file-info hidden">
-    <div class="file-detail"><span>Name:</span> <span id="fileName">No file selected</span></div>
-    <div class="file-detail"><span>Size:</span> <span id="fileSize">-</span></div>
-    <div class="file-detail"><span>Type:</span> <span id="fileType">-</span></div>
-    <div class="file-detail"><span>Dimensions:</span> <span id="fileDimensions">-</span></div>
-  </div>
-
-  <div class="settings-grid">
-    <div class="setting-group">
-      <p class="description">Input format is automatically detected from your uploaded video file.</p>
-      <select id="inputFormat" disabled>
-        <option value="auto">Auto Detect</option>
-      </select>
-    </div>
-    <div class="setting-group">
-      <p class="description">Choose the output format for your converted video (MP4, WEBM, or GIF).</p>
-      <select id="outputFormat">
-        <option value="mp4">MP4</option>
-        <option value="webm">WEBM</option>
-        <option value="gif">GIF</option>
-      </select>
-    </div>
-    <div class="setting-group">
-      <p class="description">Select video quality to balance file size and clarity.</p>
-      <select id="quality">
-        <option value="high">High</option>
-        <option value="medium" selected>Medium</option>
-        <option value="low">Low</option>
-      </select>
-    </div>
-    <div class="setting-group">
-      <p class="description">Set the frame rate for your video or keep the original.</p>
-      <select id="framerate">
-        <option value="original">Original</option>
-        <option value="30">30 fps</option>
-        <option value="25">25 fps</option>
-        <option value="24">24 fps</option>
-        <option value="15">15 fps</option>
-      </select>
-    </div>
-    <div class="setting-group">
-      <p class="description">Choose a resolution for your video or maintain the original size.</p>
-      <select id="resolution">
-        <option value="original">Original</option>
-        <option value="1080p">1080p (Full HD)</option>
-        <option value="720p">720p (HD)</option>
-        <option value="480p">480p (SD)</option>
-        <option value="360p">360p</option>
-      </select>
-    </div>
-    <div class="setting-group">
-      <p class="description">Select an aspect ratio to adjust the video's dimensions.</p>
-      <select id="aspectRatio">
-        <option value="original">Original</option>
-        <option value="16:9">16:9 (Widescreen)</option>
-        <option value="4:3">4:3 (Standard)</option>
-        <option value="1:1">1:1 (Square)</option>
-        <option value="9:16">9:16 (Vertical)</option>
-      </select>
-    </div>
-    <div class="setting-group">
-      <p class="description">Choose bitrate to control video quality and file size.</p>
-      <select id="bitrate">
-        <option value="auto">Auto</option>
-        <option value="high">High (Better quality)</option>
-        <option value="medium">Medium</option>
-        <option value="low">Low (Smaller file)</option>
-      </select>
-    </div>
-    <div class="setting-group">
-      <p class="description">Toggle audio settings for your video.</p>
-      <div class="toggle-container">
-        <label for="mute-audio">Mute Audio</label>
-        <label class="toggle-switch">
-          <input type="checkbox" id="mute-audio">
-          <span class="slider"></span>
-        </label>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-video"></i>
       </div>
-      <div class="toggle-container">
-        <label for="normalize-audio">Normalize Audio</label>
-        <label class="toggle-switch">
-          <input type="checkbox" id="normalize-audio">
-          <span class="slider"></span>
-        </label>
-      </div>
-    </div>
-  </div>
+      <h1>Free Video Toolkit</h1>
+      <p class="tagline">Convert videos to MP4, WEBM, or GIF with advanced settings.</p>
+      <p class="tagline">100% free with no sign-up required.</p>
+    </header>
 
-  <button id="convertBtn" disabled>Convert Video</button>
-
-  <div id="progressContainer" class="progress-container hidden">
-    <div class="progress-header">
-      <span>Conversion Progress</span>
-      <span id="progressPercent">0%</span>
-    </div>
-    <div class="progress-bar">
-      <div id="progressFill" class="progress-fill"></div>
-    </div>
-    <p id="progressMessage">Initializing conversion...</p>
-  </div>
-
-  <div id="resultContainer" class="result-container hidden">
-    <p>Conversion Complete!</p>
-    <a id="downloadLink" class="download-btn">Download Converted Video</a>
-  </div>
-
-  <div class="ad-container">
-    <!-- Content_AD -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-4041775163958551"
-         data-ad-slot="8266734729"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
-
-  <hr style="margin: 2em auto; width: 80%; border: 0; border-top: 1px solid #ddd;" />
-
-  <div class="sister-tools-section">
-    <h2>Explore Our Other Free Tools</h2>
-    <p>All our tools process your data entirely in your browser, ensuring your files are never stored or uploaded, keeping your privacy completely secure.</p>
-    <a href="https://free-qr-maker.com" target="_blank" rel="noopener noreferrer" class="sister-site-btn">
-      Free QR Code Generator
-    </a>
-    <a href="https://free-ean-maker.com" target="_blank" rel="noopener noreferrer" class="sister-site-btn">
-      Free EAN Barcode Generator
-    </a>
-    <a href="https://free-image-toolkit.com" target="_blank" rel="noopener noreferrer" class="sister-site-btn">
-      Free Image Toolkit
-    </a>
-  </div>
-
-  <footer>
     <div class="ad-container">
-      <!-- Footer_AD -->
+      <div class="ad-label">Advertisement</div>
       <ins class="adsbygoogle"
            style="display:block"
            data-ad-client="ca-pub-4041775163958551"
-           data-ad-slot="5895113449"
+           data-ad-slot="1294132268"
            data-ad-format="auto"
            data-full-width-responsive="true"></ins>
       <script>
-           (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
       </script>
     </div>
-    <p>Free Video Toolkit | Made with ❤️</p>
-  </footer>
+
+    <div class="features-section">
+      <h2><i class="fas fa-star"></i> Key Features</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-exchange-alt"></i>
+          <h3>Versatile Conversion</h3>
+          <p>Convert videos to MP4, WEBM, or GIF from various input formats</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-sliders-h"></i>
+          <h3>Advanced Settings</h3>
+          <p>Customize quality, resolution, framerate, and audio options</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-bolt"></i>
+          <h3>Fast Processing</h3>
+          <p>Convert videos instantly in your browser, no uploads required</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-lock"></i>
+          <h3>Privacy First</h3>
+          <p>All processing happens locally—no data leaves your device</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tabs">
+        <div class="tab active" data-tab="convert">
+          <i class="fas fa-exchange-alt"></i> Convert
+        </div>
+      </div>
+
+      <div class="tab-content active" id="convert-tab">
+        <h2><i class="fas fa-exchange-alt"></i> Video Converter</h2>
+        <p><i>Convert videos to MP4, WEBM, or GIF with customizable settings.</i></p>
+        <div class="drag-drop-area" id="dropZone">
+          <p id="dropZoneText"><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+          <p>Supported formats: MP4, WEBM, MOV, AVI, MKV</p>
+          <p>Max file size: 100MB</p>
+        </div>
+        <input type="file" id="videoInput" accept="video/mp4,video/webm,video/quicktime,video/x-msvideo,video/x-matroska" style="display: none;" aria-label="Upload video for conversion" />
+        <div class="error" id="convert-error"></div>
+        <div class="success" id="convert-success"></div>
+        <div class="loading" id="convert-loading">
+          <div class="spinner"></div>
+          Processing Video...
+        </div>
+        <div id="fileInfo" class="file-info" style="display: none;">
+          <div class="file-detail"><span>Name:</span> <span id="fileName">No file selected</span></div>
+          <div class="file-detail"><span>Size:</span> <span id="fileSize">-</span></div>
+          <div class="file-detail"><span>Type:</span> <span id="fileType">-</span></div>
+          <div class="file-detail"><span>Dimensions:</span> <span id="fileDimensions">-</span></div>
+        </div>
+        <div class="settings-grid">
+          <div class="setting-group">
+            <p class="description">Input format is automatically detected from your uploaded video file.</p>
+            <select id="inputFormat" disabled aria-label="Input format">
+              <option value="auto">Auto Detect</option>
+            </select>
+          </div>
+          <div class="setting-group">
+            <p class="description">Choose the output format for your converted video.</p>
+            <select id="outputFormat" aria-label="Output format">
+              <option value="mp4">MP4</option>
+              <option value="webm">WEBM</option>
+              <option value="gif">GIF</option>
+            </select>
+          </div>
+          <div class="setting-group">
+            <p class="description">Select video quality to balance file size and clarity.</p>
+            <select id="quality" aria-label="Video quality">
+              <option value="high">High</option>
+              <option value="medium" selected>Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          <div class="setting-group">
+            <p class="description">Set the frame rate for your video or keep the original.</p>
+            <select id="framerate" aria-label="Framerate">
+              <option value="original">Original</option>
+              <option value="30">30 fps</option>
+              <option value="25">25 fps</option>
+              <option value="24">24 fps</option>
+              <option value="15">15 fps</option>
+            </select>
+          </div>
+          <div class="setting-group">
+            <p class="description">Choose a resolution for your video or maintain the original size.</p>
+            <select id="resolution" aria-label="Resolution">
+              <option value="original">Original</option>
+              <option value="1080p">1080p (Full HD)</option>
+              <option value="720p">720p (HD)</option>
+              <option value="480p">480p (SD)</option>
+              <option value="360p">360p</option>
+            </select>
+          </div>
+          <div class="setting-group">
+            <p class="description">Select an aspect ratio to adjust the video's dimensions.</p>
+            <select id="aspectRatio" aria-label="Aspect ratio">
+              <option value="original">Original</option>
+              <option value="16:9">16:9 (Widescreen)</option>
+              <option value="4:3">4:3 (Standard)</option>
+              <option value="1:1">1:1 (Square)</option>
+              <option value="9:16">9:16 (Vertical)</option>
+            </select>
+          </div>
+          <div class="setting-group">
+            <p class="description">Choose bitrate to control video quality and file size.</p>
+            <select id="bitrate" aria-label="Bitrate">
+              <option value="auto">Auto</option>
+              <option value="high">High (Better quality)</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low (Smaller file)</option>
+            </select>
+          </div>
+          <div class="setting-group">
+            <p class="description">Toggle audio settings for your video.</p>
+            <div class="toggle-container">
+              <label for="mute-audio">Mute Audio</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="mute-audio" aria-label="Mute audio">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="toggle-container">
+              <label for="normalize-audio">Normalize Audio</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="normalize-audio" aria-label="Normalize audio">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <button id="convertBtn" disabled>
+          <i class="fas fa-exchange-alt"></i> Convert Video
+        </button>
+        <div id="progressContainer" class="progress-container">
+          <div class="progress-header">
+            <span>Conversion Progress</span>
+            <span id="progressPercent">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+          <p id="progressMessage">Initializing conversion...</p>
+        </div>
+        <div id="resultContainer" class="result-container">
+          <p>Conversion Complete!</p>
+          <a id="downloadLink" class="download-btn"><i class="fas fa-download"></i> Download Converted Video</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ad-container">
+      <div class="ad-label">Advertisement</div>
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-4041775163958551"
+           data-ad-slot="8266734729"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
+    <div class="sister-tools-section">
+      <h2><i class="fas fa-tools"></i> Explore Our Free Tools</h2>
+      <p>All our tools process your data entirely in your browser, ensuring your files are never stored or uploaded, keeping your privacy completely secure.</p>
+      <div class="sister-tools-grid">
+        <div class="sister-tool">
+          <i class="fas fa-barcode"></i>
+          <h3>Free Barcode Generator</h3>
+          <p>Create custom barcodes for EAN, UPC, Code 128, and more</p>
+          <a href="https://free-ean-maker.com" class="sister-tool-btn" target="_blank" rel="noopener noreferrer">Try Now</a>
+        </div>
+        <div class="sister-tool">
+          <i class="fas fa-qrcode"></i>
+          <h3>Free QR Generator</h3>
+          <p>Create custom QR codes with logos and colors</p>
+          <a href="https://free-qr-maker.com" class="sister-tool-btn" target="_blank" rel="noopener noreferrer">Try Now</a>
+        </div>
+        <div class="sister-tool">
+          <i class="fas fa-image"></i>
+          <h3>Free Image Toolkit</h3>
+          <p>Crop, resize, and convert images in multiple formats</p>
+          <a href="https://free-image-toolkit.com" class="sister-tool-btn" target="_blank" rel="noopener noreferrer">Try Now</a>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-4041775163958551"
+             data-ad-slot="5895113449"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+      <p>© 2025 Free Video Toolkit | Made with ❤️</p>
+    </footer>
+  </div>
 
   <script>
+    // DOM Elements
+    const refs = {
+      dropZone: document.getElementById('dropZone'),
+      videoInput: document.getElementById('videoInput'),
+      dropZoneText: document.getElementById('dropZoneText'),
+      fileInfo: document.getElementById('fileInfo'),
+      fileName: document.getElementById('fileName'),
+      fileSize: document.getElementById('fileSize'),
+      fileType: document.getElementById('fileType'),
+      fileDimensions: document.getElementById('fileDimensions'),
+      convertBtn: document.getElementById('convertBtn'),
+      progressContainer: document.getElementById('progressContainer'),
+      progressMessage: document.getElementById('progressMessage'),
+      progressFill: document.getElementById('progressFill'),
+      progressPercent: document.getElementById('progressPercent'),
+      resultContainer: document.getElementById('resultContainer'),
+      downloadLink: document.getElementById('downloadLink'),
+      convertError: document.getElementById('convert-error'),
+      convertSuccess: document.getElementById('convert-success'),
+      convertLoading: document.getElementById('convert-loading')
+    };
+
+    // State
+    let state = {
+      uploadedFile: null,
+      mediaRecorder: null,
+      recordedChunks: [],
+      conversionInProgress: false,
+      originalVideoWidth: 0,
+      originalVideoHeight: 0,
+      videoElement: null,
+      canvas: null,
+      stream: null
+    };
+
+    // Helper Functions
+    function showError(message) {
+      refs.convertError.textContent = message;
+      refs.convertError.style.display = 'block';
+    }
+
+    function showSuccess(message) {
+      refs.convertSuccess.textContent = message;
+      refs.convertSuccess.style.display = 'block';
+    }
+
+    function hideMessages() {
+      refs.convertError.style.display = 'none';
+      refs.convertSuccess.style.display = 'none';
+    }
+
+    function showLoading() {
+      refs.convertLoading.style.display = 'block';
+    }
+
+    function hideLoading() {
+      refs.convertLoading.style.display = 'none';
+    }
+
+    function updateProgress(percent, msg) {
+      const percentValue = Math.min(100, Math.max(0, percent));
+      refs.progressFill.style.width = `${percentValue}%`;
+      refs.progressMessage.textContent = msg;
+      refs.progressPercent.textContent = `${Math.round(percentValue)}%`;
+    }
+
+    function getResolutionDimensions(resolution) {
+      const resolutions = {
+        '1080p': { width: 1920, height: 1080 },
+        '720p': { width: 1280, height: 720 },
+        '480p': { width: 854, height: 480 },
+        '360p': { width: 640, height: 360 }
+      };
+      return resolutions[resolution] || null;
+    }
+
+    function getAspectRatioDimensions(aspectRatio, width, height) {
+      const [ratioW, ratioH] = aspectRatio.split(':').map(Number);
+      const targetRatio = ratioW / ratioH;
+      const currentRatio = width / height;
+
+      if (Math.abs(currentRatio - targetRatio) < 0.01) {
+        return { width, height };
+      }
+
+      if (currentRatio > targetRatio) {
+        const newWidth = Math.round(height * targetRatio);
+        return { width: newWidth, height };
+      } else {
+        const newHeight = Math.round(width / targetRatio);
+        return { width, height: newHeight };
+      }
+    }
+
+    function cleanup() {
+      if (state.videoElement) {
+        state.videoElement.pause();
+        document.body.removeChild(state.videoElement);
+        state.videoElement = null;
+      }
+      if (state.canvas) {
+        document.body.removeChild(state.canvas);
+        state.canvas = null;
+      }
+      if (state.stream) {
+        state.stream.getTracks().forEach(track => track.stop());
+        state.stream = null;
+      }
+      if (state.mediaRecorder) {
+        state.mediaRecorder.stop();
+        state.mediaRecorder = null;
+      }
+      state.recordedChunks = [];
+      state.conversionInProgress = false;
+      refs.convertBtn.disabled = !state.uploadedFile;
+      refs.progressContainer.style.display = 'none';
+      hideLoading();
+    }
+
+    // Initialize
     document.addEventListener('DOMContentLoaded', () => {
-      // Element references
-      const refs = {
-        dropZone: document.getElementById('dropZone'),
-        videoInput: document.getElementById('videoInput'),
-        dropZoneText: document.getElementById('dropZoneText'),
-        fileInfo: document.getElementById('fileInfo'),
-        fileName: document.getElementById('fileName'),
-        fileSize: document.getElementById('fileSize'),
-        fileType: document.getElementById('fileType'),
-        fileDimensions: document.getElementById('fileDimensions'),
-        convertBtn: document.getElementById('convertBtn'),
-        progressContainer: document.getElementById('progressContainer'),
-        progressMessage: document.getElementById('progressMessage'),
-        progressFill: document.getElementById('progressFill'),
-        progressPercent: document.getElementById('progressPercent'),
-        resultContainer: document.getElementById('resultContainer'),
-        downloadLink: document.getElementById('downloadLink')
-      };
-
-      let state = {
-        uploadedFile: null,
-        mediaRecorder: null,
-        recordedChunks: [],
-        conversionInProgress: false,
-        originalVideoWidth: 0,
-        originalVideoHeight: 0,
-        videoElement: null,
-        canvas: null,
-        stream: null
-      };
-
-      // Setup event listeners
-      refs.videoInput.addEventListener('change', e => {
-        if (e.target.files[0]) processFile(e.target.files[0]);
-      });
-
+      // Drag and Drop Setup
       refs.dropZone.addEventListener('click', () => refs.videoInput.click());
-
-      refs.dropZone.addEventListener('dragover', e => {
+      refs.dropZone.addEventListener('dragover', (e) => {
         e.preventDefault();
-        refs.dropZone.classList.add('active');
+        refs.dropZone.classList.add('drag-over');
+      });
+      refs.dropZone.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        refs.dropZone.classList.add('drag-over');
+      });
+      refs.dropZone.addEventListener('dragleave', () => {
+        refs.dropZone.classList.remove('drag-over');
+      });
+      refs.dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        refs.dropZone.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          refs.videoInput.files = files;
+          refs.videoInput.dispatchEvent(new Event('change'));
+        }
       });
 
-      refs.dropZone.addEventListener('dragleave', e => {
-        e.preventDefault();
-        refs.dropZone.classList.remove('active');
-      });
+      // File Input
+      refs.videoInput.addEventListener('change', processFile);
 
-      refs.dropZone.addEventListener('drop', e => {
-        e.preventDefault();
-        refs.dropZone.classList.remove('active');
-        if (e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]);
-      });
-
+      // Convert Button
       refs.convertBtn.addEventListener('click', startConversion);
+    });
 
-      async function processFile(file) {
-        const allowedTypes = [
-          'video/mp4', 'video/webm', 'video/quicktime',
-          'video/x-msvideo', 'video/x-matroska'
-        ];
-        const allowedExtensions = ['.mp4', '.webm', '.mov', '.avi', '.mkv'];
-        const ext = '.' + file.name.split('.').pop().toLowerCase();
+    async function processFile(e) {
+      const file = e.target.files[0];
+      if (!file) return;
 
-        if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(ext)) {
-          alert('Invalid file type. Please select a supported format (MP4, WEBM, MOV, AVI, or MKV).');
-          return;
-        }
+      hideMessages();
+      showLoading();
 
-        if (file.size > 100 * 1024 * 1024) {
-          alert('File size exceeds 100MB limit. Please select a smaller file.');
-          return;
-        }
+      const allowedTypes = [
+        'video/mp4', 'video/webm', 'video/quicktime',
+        'video/x-msvideo', 'video/x-matroska'
+      ];
+      const allowedExtensions = ['.mp4', '.webm', '.mov', '.avi', '.mkv'];
+      const ext = '.' + file.name.split('.').pop().toLowerCase();
 
+      if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(ext)) {
+        showError('Invalid file type. Please select a supported format (MP4, WEBM, MOV, AVI, or MKV).');
+        hideLoading();
+        return;
+      }
+
+      if (file.size > 100 * 1024 * 1024) {
+        showError('File size exceeds 100MB limit. Please select a smaller file.');
+        hideLoading();
+        return;
+      }
+
+      try {
         state.uploadedFile = file;
         refs.dropZoneText.innerHTML = `Ready to convert:<br><strong>${file.name}</strong>`;
-        refs.fileInfo.classList.remove('hidden');
+        refs.fileInfo.style.display = 'block';
         refs.fileName.textContent = file.name;
         refs.fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
         refs.fileType.textContent = file.type || 'Unknown';
 
-        try {
-          const video = document.createElement('video');
-          video.src = URL.createObjectURL(file);
-          video.style.display = 'none';
-          document.body.appendChild(video);
+        const video = document.createElement('video');
+        video.src = URL.createObjectURL(file);
+        video.style.display = 'none';
+        document.body.appendChild(video);
 
-          await new Promise((resolve, reject) => {
-            video.onloadedmetadata = () => {
-              state.originalVideoWidth = video.videoWidth;
-              state.originalVideoHeight = video.videoHeight;
-              refs.fileDimensions.textContent = `${state.originalVideoWidth}×${state.originalVideoHeight}`;
-              document.body.removeChild(video);
-              resolve();
-            };
-            video.onerror = reject;
-          });
+        await new Promise((resolve, reject) => {
+          video.onloadedmetadata = () => {
+            state.originalVideoWidth = video.videoWidth;
+            state.originalVideoHeight = video.videoHeight;
+            refs.fileDimensions.textContent = `${state.originalVideoWidth}×${state.originalVideoHeight}`;
+            document.body.removeChild(video);
+            URL.revokeObjectURL(video.src);
+            resolve();
+          };
+          video.onerror = () => reject(new Error('Failed to load video metadata'));
+        });
 
-          refs.convertBtn.disabled = false;
-        } catch (error) {
-          alert('Error processing video: ' + error.message);
-          cleanup();
-          refs.convertBtn.disabled = true;
-        }
-      }
-
-      function updateProgress(percent, msg) {
-        const percentValue = Math.min(100, Math.max(0, percent));
-        refs.progressFill.style.width = `${percentValue}%`;
-        refs.progressMessage.textContent = msg;
-        refs.progressPercent.textContent = `${Math.round(percentValue)}%`;
-      }
-
-      function getResolutionDimensions(resolution) {
-        const resolutions = {
-          '1080p': { width: 1920, height: 1080 },
-          '720p': { width: 1280, height: 720 },
-          '480p': { width: 854, height: 480 },
-          '360p': { width: 640, height: 360 }
-        };
-        return resolutions[resolution] || null;
-      }
-
-      function getAspectRatioDimensions(aspectRatio, width, height) {
-        const [ratioW, ratioH] = aspectRatio.split(':').map(Number);
-        const targetRatio = ratioW / ratioH;
-        const currentRatio = width / height;
-
-        if (Math.abs(currentRatio - targetRatio) < 0.01) {
-          return { width, height };
-        }
-
-        if (currentRatio > targetRatio) {
-          const newWidth = Math.round(height * targetRatio);
-          return { width: newWidth, height };
-        } else {
-          const newHeight = Math.round(width / targetRatio);
-          return { width, height: newHeight };
-        }
-      }
-
-      function cleanup() {
-        if (state.videoElement) {
-          state.videoElement.pause();
-          document.body.removeChild(state.videoElement);
-          state.videoElement = null;
-        }
-        if (state.canvas) {
-          document.body.removeChild(state.canvas);
-          state.canvas = null;
-        }
-        if (state.stream) {
-          state.stream.getTracks().forEach(track => track.stop());
-          state.stream = null;
-        }
-        if (state.mediaRecorder) {
-          state.mediaRecorder.stop();
-          state.mediaRecorder = null;
-        }
-        state.recordedChunks = [];
-        state.conversionInProgress = false;
-        refs.convertBtn.disabled = state.uploadedFile ? false : true;
-        refs.progressContainer.classList.add('hidden');
-      }
-
-      async function startConversion() {
-        if (!state.uploadedFile || state.conversionInProgress) return;
-
-        state.conversionInProgress = true;
+        refs.convertBtn.disabled = false;
+        showSuccess('Video loaded successfully!');
+      } catch (error) {
+        showError('Error processing video: ' + error.message);
+        cleanup();
         refs.convertBtn.disabled = true;
-        refs.progressContainer.classList.remove('hidden');
-        refs.resultContainer.classList.add('hidden');
-
-        const outputFormat = document.getElementById('outputFormat').value;
-        const quality = document.getElementById('quality').value;
-        const framerate = document.getElementById('framerate').value;
-        const resolution = document.getElementById('resolution').value;
-        const aspectRatio = document.getElementById('aspectRatio').value;
-        const muteAudio = document.getElementById('mute-audio').checked;
-
-        try {
-          updateProgress(10, 'Processing video file...');
-
-          // Create video element
-          state.videoElement = document.createElement('video');
-          state.videoElement.muted = muteAudio;
-          state.videoElement.src = URL.createObjectURL(state.uploadedFile);
-          state.videoElement.style.display = 'none';
-          document.body.appendChild(state.videoElement);
-
-          await new Promise((resolve, reject) => {
-            state.videoElement.onloadedmetadata = resolve;
-            state.videoElement.onerror = () => reject(new Error('Failed to load video metadata'));
-          });
-
-          updateProgress(20, 'Applying settings...');
-
-          // Create canvas
-          state.canvas = document.createElement('canvas');
-          const ctx = state.canvas.getContext('2d');
-          document.body.appendChild(state.canvas);
-
-          // Determine output dimensions
-          let outputWidth = state.originalVideoWidth;
-          let outputHeight = state.originalVideoHeight;
-
-          if (resolution !== 'original') {
-            const resDimensions = getResolutionDimensions(resolution);
-            if (resDimensions) {
-              outputWidth = resDimensions.width;
-              outputHeight = resDimensions.height;
-            }
-          }
-
-          if (aspectRatio !== 'original') {
-            const aspectDimensions = getAspectRatioDimensions(aspectRatio, outputWidth, outputHeight);
-            outputWidth = aspectDimensions.width;
-            outputHeight = aspectDimensions.height;
-          }
-
-          state.canvas.width = outputWidth;
-          state.canvas.height = outputHeight;
-
-          // Draw video to canvas
-          state.videoElement.addEventListener('play', () => {
-            function drawFrame() {
-              if (state.videoElement.paused || state.videoElement.ended) return;
-              ctx.drawImage(state.videoElement, 0, 0, outputWidth, outputHeight);
-              requestAnimationFrame(drawFrame);
-            }
-            drawFrame();
-          });
-
-          // Setup MediaRecorder
-          state.stream = state.canvas.captureStream(framerate === 'original' ? 30 : parseInt(framerate));
-          state.recordedChunks = [];
-
-          const options = {
-            mimeType: `video/${outputFormat}`,
-            videoBitsPerSecond: quality === 'high' ? 2500000 : quality === 'medium' ? 1000000 : 500000,
-            audioBitsPerSecond: muteAudio ? undefined : 128000
-          };
-
-          state.mediaRecorder = new MediaRecorder(state.stream, options);
-
-          state.mediaRecorder.ondataavailable = e => {
-            if (e.data.size > 0) state.recordedChunks.push(e.data);
-          };
-
-          state.mediaRecorder.onstop = () => {
-            const blob = new Blob(state.recordedChunks, { type: `video/${outputFormat}` });
-            const url = URL.createObjectURL(blob);
-
-            refs.downloadLink.href = url;
-            refs.downloadLink.download = `converted.${outputFormat}`;
-            refs.downloadLink.textContent = `Download ${outputFormat.toUpperCase()} (${(blob.size / 1024 / 1024).toFixed(1)}MB)`;
-
-            updateProgress(100, 'Conversion complete!');
-            setTimeout(() => {
-              refs.resultContainer.classList.remove('hidden');
-            }, 500);
-
-            cleanup();
-          };
-
-          state.mediaRecorder.onerror = e => {
-            console.error('MediaRecorder error:', e);
-            alert(`Conversion error: ${e.error?.name || 'Unknown error'}`);
-            cleanup();
-          };
-
-          // Start recording
-          state.mediaRecorder.start();
-          state.videoElement.play();
-
-          updateProgress(30, 'Converting video...');
-
-          // Update progress
-          const duration = state.videoElement.duration;
-          const progressInterval = setInterval(() => {
-            if (state.videoElement.ended) {
-              clearInterval(progressInterval);
-              if (state.mediaRecorder) state.mediaRecorder.stop();
-            } else {
-              const percent = 30 + (state.videoElement.currentTime / duration) * 70;
-              updateProgress(percent, `Converting: ${Math.round(state.videoElement.currentTime)}s of ${Math.round(duration)}s`);
-            }
-          }, 500);
-
-        } catch (error) {
-          console.error('Conversion error:', error);
-          alert(`Conversion error: ${error.message || 'Unknown error'}`);
-          cleanup();
-        }
+      } finally {
+        hideLoading();
       }
-    });
+    }
+
+    async function startConversion() {
+      if (!state.uploadedFile || state.conversionInProgress) return;
+
+      state.conversionInProgress = true;
+      refs.convertBtn.disabled = true;
+      refs.progressContainer.style.display = 'block';
+      refs.resultContainer.style.display = 'none';
+      hideMessages();
+      showLoading();
+
+      const outputFormat = document.getElementById('outputFormat').value;
+      const quality = document.getElementById('quality').value;
+      const framerate = document.getElementById('framerate').value;
+      const resolution = document.getElementById('resolution').value;
+      const aspectRatio = document.getElementById('aspectRatio').value;
+      const muteAudio = document.getElementById('mute-audio').checked;
+
+      try {
+        updateProgress(10, 'Processing video file...');
+
+        // Create video element
+        state.videoElement = document.createElement('video');
+        state.videoElement.muted = muteAudio;
+        state.videoElement.src = URL.createObjectURL(state.uploadedFile);
+        state.videoElement.style.display = 'none';
+        document.body.appendChild(state.videoElement);
+
+        await new Promise((resolve, reject) => {
+          state.videoElement.onloadedmetadata = resolve;
+          state.videoElement.onerror = () => reject(new Error('Failed to load video metadata'));
+        });
+
+        updateProgress(20, 'Applying settings...');
+
+        // Create canvas
+        state.canvas = document.createElement('canvas');
+        const ctx = state.canvas.getContext('2d');
+        document.body.appendChild(state.canvas);
+
+        // Determine output dimensions
+        let outputWidth = state.originalVideoWidth;
+        let outputHeight = state.originalVideoHeight;
+
+        if (resolution !== 'original') {
+          const resDimensions = getResolutionDimensions(resolution);
+          if (resDimensions) {
+            outputWidth = resDimensions.width;
+            outputHeight = resDimensions.height;
+          }
+        }
+
+        if (aspectRatio !== 'original') {
+          const aspectDimensions = getAspectRatioDimensions(aspectRatio, outputWidth, outputHeight);
+          outputWidth = aspectDimensions.width;
+          outputHeight = aspectDimensions.height;
+        }
+
+        state.canvas.width = outputWidth;
+        state.canvas.height = outputHeight;
+
+        // Draw video to canvas
+        state.videoElement.addEventListener('play', () => {
+          function drawFrame() {
+            if (state.videoElement.paused || state.videoElement.ended) return;
+            ctx.drawImage(state.videoElement, 0, 0, outputWidth, outputHeight);
+            requestAnimationFrame(drawFrame);
+          }
+          drawFrame();
+        });
+
+        // Setup MediaRecorder
+        state.stream = state.canvas.captureStream(framerate === 'original' ? 30 : parseInt(framerate));
+        state.recordedChunks = [];
+
+        const options = {
+          mimeType: `video/${outputFormat}`,
+          videoBitsPerSecond: quality === 'high' ? 2500000 : quality === 'medium' ? 1000000 : 500000,
+          audioBitsPerSecond: muteAudio ? undefined : 128000
+        };
+
+        state.mediaRecorder = new MediaRecorder(state.stream, options);
+
+        state.mediaRecorder.ondataavailable = e => {
+          if (e.data.size > 0) state.recordedChunks.push(e.data);
+        };
+
+        state.mediaRecorder.onstop = () => {
+          const blob = new Blob(state.recordedChunks, { type: `video/${outputFormat}` });
+          const url = URL.createObjectURL(blob);
+
+          refs.downloadLink.href = url;
+          refs.downloadLink.download = `converted.${outputFormat}`;
+          refs.downloadLink.innerHTML = `<i class="fas fa-download"></i> Download ${outputFormat.toUpperCase()} (${(blob.size / 1024 / 1024).toFixed(1)}MB)`;
+
+          updateProgress(100, 'Conversion complete!');
+          refs.resultContainer.style.display = 'block';
+          showSuccess('Video converted successfully!');
+          cleanup();
+        };
+
+        state.mediaRecorder.onerror = e => {
+          showError(`Conversion error: ${e.error?.name || 'Unknown error'}`);
+          cleanup();
+        };
+
+        // Start recording
+        state.mediaRecorder.start();
+        state.videoElement.play();
+
+        updateProgress(30, 'Converting video...');
+
+        // Update progress
+        const duration = state.videoElement.duration;
+        const progressInterval = setInterval(() => {
+          if (state.videoElement.ended) {
+            clearInterval(progressInterval);
+            if (state.mediaRecorder) state.mediaRecorder.stop();
+          } else {
+            const percent = 30 + (state.videoElement.currentTime / duration) * 70;
+            updateProgress(percent, `Converting: ${Math.round(state.videoElement.currentTime)}s of ${Math.round(duration)}s`);
+          }
+        }, 500);
+
+      } catch (error) {
+        showError(`Conversion error: ${error.message || 'Unknown error'}`);
+        cleanup();
+      } finally {
+        hideLoading();
+      }
+    }
   </script>
 </body>
 </html>
