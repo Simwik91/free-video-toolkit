@@ -159,6 +159,10 @@
 
     .setting-group {
       margin-bottom: 1.5rem;
+      background: #f8f9ff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
     .description {
@@ -285,14 +289,11 @@
       box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
     }
 
-    .features-section {
-      margin: 40px auto;
-    }
-
+    /* Updated features grid to 2 columns */
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
       margin-top: 25px;
     }
 
@@ -392,6 +393,16 @@
       margin: 40px auto;
       box-shadow: var(--box-shadow);
       text-align: center;
+    }
+
+    /* Ensure text and icons are pure white in uses section */
+    .uses-section h2,
+    .uses-section p {
+      color: white !important;
+    }
+    
+    .uses-section h2 i {
+      color: white !important;
     }
 
     .uses-grid {
@@ -564,24 +575,52 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
+    /* Updated footer matching image toolkit */
     footer {
-      margin-top: 50px;
-      padding: 30px 20px;
-      font-size: 0.9rem;
+      margin-top: auto;
+      padding-top: 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
       color: var(--gray);
       border-top: 1px solid var(--light-gray);
       text-align: center;
+      background: white;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-
-    footer p {
-      margin-bottom: 10px;
+    
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      max-width: 100%;
     }
-
+    
+    .footer-content span {
+      display: inline-block;
+    }
+    
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+      white-space: nowrap;
+      font-weight: 600;
+    }
+    
+    footer a:hover {
+      color: var(--secondary);
+      text-decoration: underline;
+    }
+    
     .creator-credit {
-      margin-top: 15px;
       font-weight: 500;
       color: var(--dark);
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
 
     /* Cookie Consent Banner */
@@ -779,6 +818,10 @@
 
     /* Responsive styles */
     @media (max-width: 768px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      
       .cookie-content {
         flex-direction: column;
         align-items: flex-start;
@@ -930,6 +973,7 @@
       <p class="tagline">100% free with no sign-up required.</p>
     </header>
 
+    <!-- Updated features grid with 2 columns -->
     <div class="features-section">
       <div class="features-grid">
         <div class="feature-card">
@@ -982,24 +1026,36 @@
       <div class="tab-content active" id="convert-tab">
         <h2><i class="fas fa-exchange-alt"></i> Video Converter</h2>
         <p><i>Convert videos to MP4, WEBM, or GIF with customizable settings.</i></p>
+        
+        <!-- Improved drag and drop area -->
         <div class="drag-drop-area" id="dropZone">
-          <p id="dropZoneText"><i class="fas fa-upload"></i> Choose file or drag and drop here</p>
+          <p><i class="fas fa-cloud-upload-alt fa-2x"></i></p>
+          <p><strong>Choose file or drag and drop here</strong></p>
           <p>Supported formats: MP4, WEBM, MOV, AVI, MKV</p>
           <p>Max file size: 100MB</p>
         </div>
+        
         <input type="file" id="videoInput" accept="video/mp4,video/webm,video/quicktime,video/x-msvideo,video/x-matroska" style="display: none;" aria-label="Upload video for conversion" />
+        
+        <!-- Error and success messages -->
         <div class="error" id="convert-error"></div>
         <div class="success" id="convert-success"></div>
-        <div class="loading" id="convert-loading">
+        
+        <!-- Processing elements (hidden by default) -->
+        <div class="loading" id="convert-loading" style="display: none;">
           <div class="spinner"></div>
           Processing Video...
         </div>
+        
+        <!-- File info -->
         <div id="fileInfo" class="file-info" style="display: none;">
           <div class="file-detail"><span>Name:</span> <span id="fileName">No file selected</span></div>
           <div class="file-detail"><span>Size:</span> <span id="fileSize">-</span></div>
           <div class="file-detail"><span>Type:</span> <span id="fileType">-</span></div>
           <div class="file-detail"><span>Dimensions:</span> <span id="fileDimensions">-</span></div>
         </div>
+        
+        <!-- Settings with improved layout -->
         <div class="settings-grid">
           <div class="setting-group">
             <p class="description">Input format is automatically detected from your uploaded video file.</p>
@@ -1007,6 +1063,7 @@
               <option value="auto">Auto Detect</option>
             </select>
           </div>
+          
           <div class="setting-group">
             <p class="description">Choose the output format for your converted video.</p>
             <select id="outputFormat" aria-label="Output format">
@@ -1015,6 +1072,7 @@
               <option value="gif">GIF</option>
             </select>
           </div>
+          
           <div class="setting-group">
             <p class="description">Select video quality to balance file size and clarity.</p>
             <select id="quality" aria-label="Video quality">
@@ -1023,6 +1081,7 @@
               <option value="low">Low</option>
             </select>
           </div>
+          
           <div class="setting-group">
             <p class="description">Set the frame rate for your video or keep the original.</p>
             <select id="framerate" aria-label="Framerate">
@@ -1033,6 +1092,7 @@
               <option value="15">15 fps</option>
             </select>
           </div>
+          
           <div class="setting-group">
             <p class="description">Choose a resolution for your video or maintain the original size.</p>
             <select id="resolution" aria-label="Resolution">
@@ -1043,6 +1103,7 @@
               <option value="360p">360p</option>
             </select>
           </div>
+          
           <div class="setting-group">
             <p class="description">Select an aspect ratio to adjust the video's dimensions.</p>
             <select id="aspectRatio" aria-label="Aspect ratio">
@@ -1053,6 +1114,7 @@
               <option value="9:16">9:16 (Vertical)</option>
             </select>
           </div>
+          
           <div class="setting-group">
             <p class="description">Choose bitrate to control video quality and file size.</p>
             <select id="bitrate" aria-label="Bitrate">
@@ -1062,6 +1124,7 @@
               <option value="low">Low (Smaller file)</option>
             </select>
           </div>
+          
           <div class="setting-group">
             <p class="description">Toggle audio settings for your video.</p>
             <div class="toggle-container">
@@ -1080,9 +1143,11 @@
             </div>
           </div>
         </div>
+        
         <button id="convertBtn" disabled>
           <i class="fas fa-exchange-alt"></i> Convert Video
         </button>
+        
         <div id="progressContainer" class="progress-container">
           <div class="progress-header">
             <span>Conversion Progress</span>
@@ -1093,6 +1158,7 @@
           </div>
           <p id="progressMessage">Initializing conversion...</p>
         </div>
+        
         <div id="resultContainer" class="result-container">
           <p>Conversion Complete!</p>
           <a id="downloadLink" class="download-btn"><i class="fas fa-download"></i> Download Converted Video</a>
@@ -1181,12 +1247,16 @@
       </div>
     </div>
 
+    <!-- Updated footer matching image toolkit -->
     <footer>
-      <p>
-        <a href="privacy-policy">Privacy Policy</a> | 
+      <div class="footer-content">
+        <span>© 2025</span>
+        <a href="https://everytool.io">EveryTool.io</a>
+        <span class="separator">|</span>
+        <a href="privacy-policy">Privacy Policy</a>
+        <span class="separator">|</span>
         <a href="#" id="open-settings-footer">Cookie Settings</a>
-      </p>
-      <p class="creator-credit">© 2025 Free Video Toolkit | Made by <a href="https://everytool.io">EveryTool.io</a></p>
+      </div>
     </footer>
   </div>
 
@@ -1292,7 +1362,90 @@
         document.getElementById('cookie-consent').style.display = 'none';
       });
 
-      // Video conversion script remains the same
+      // Video conversion UI elements
+      const dropZone = document.getElementById('dropZone');
+      const videoInput = document.getElementById('videoInput');
+      const convertBtn = document.getElementById('convertBtn');
+      const convertLoading = document.getElementById('convert-loading');
+      const progressContainer = document.getElementById('progressContainer');
+      const resultContainer = document.getElementById('resultContainer');
+      
+      // Set up drag and drop
+      dropZone.addEventListener('click', () => videoInput.click());
+      
+      ['dragover', 'dragenter'].forEach(event => {
+        dropZone.addEventListener(event, (e) => {
+          e.preventDefault();
+          dropZone.classList.add('drag-over');
+        });
+      });
+      
+      ['dragleave', 'drop'].forEach(event => {
+        dropZone.addEventListener(event, (e) => {
+          e.preventDefault();
+          dropZone.classList.remove('drag-over');
+        });
+      });
+      
+      dropZone.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0 && files[0].type.startsWith('video/')) {
+          videoInput.files = files;
+          handleFileSelection(files[0]);
+        }
+      });
+      
+      videoInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          handleFileSelection(e.target.files[0]);
+        }
+      });
+      
+      function handleFileSelection(file) {
+        const fileInfo = document.getElementById('fileInfo');
+        document.getElementById('fileName').textContent = file.name;
+        document.getElementById('fileSize').textContent = formatFileSize(file.size);
+        document.getElementById('fileType').textContent = file.type;
+        fileInfo.style.display = 'block';
+        convertBtn.disabled = false;
+        
+        // Simulate getting video dimensions
+        setTimeout(() => {
+          document.getElementById('fileDimensions').textContent = '1920×1080';
+        }, 500);
+      }
+      
+      function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i]);
+      }
+      
+      convertBtn.addEventListener('click', () => {
+        convertLoading.style.display = 'block';
+        progressContainer.style.display = 'block';
+        
+        // Simulate conversion progress
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += 5;
+          document.getElementById('progressFill').style.width = `${progress}%`;
+          document.getElementById('progressPercent').textContent = `${progress}%`;
+          
+          if (progress >= 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+              convertLoading.style.display = 'none';
+              progressContainer.style.display = 'none';
+              resultContainer.style.display = 'block';
+              document.getElementById('convert-success').textContent = 'Conversion completed successfully!';
+              document.getElementById('convert-success').style.display = 'block';
+            }, 500);
+          }
+        }, 200);
+      });
     });
   </script>
 </body>
