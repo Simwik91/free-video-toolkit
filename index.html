@@ -33,6 +33,7 @@
     }
   </script>
   <style>
+    /* CSS remains unchanged from your original */
     :root {
       --primary: #4361ee;
       --primary-dark: #3a56d4;
@@ -1166,7 +1167,6 @@
           <p>Max file size: 100MB</p>
         </div>
         
-        <label for="videoInput" class="visually-hidden">Upload video for conversion</label>
         <input type="file" id="videoInput" accept="video/mp4,video/webm,video/quicktime,video/x-msvideo,video/x-matroska" style="display: none;" aria-label="Upload video for conversion" />
         
         <div class="error" id="convert-error"></div>
@@ -1186,15 +1186,6 @@
         
         <div class="settings-grid">
           <div class="setting-group">
-            <p class="description">Input format is automatically detected from your uploaded video file.</p>
-            <label for="inputFormat">Input Format:</label>
-            <select id="inputFormat" disabled aria-label="Input format">
-              <option value="auto">Auto Detect</option>
-            </select>
-          </div>
-          
-          <div class="setting-group">
-            <p class="description">Choose the output format for your converted video.</p>
             <label for="outputFormat">Output Format:</label>
             <select id="outputFormat" aria-label="Output format">
               <option value="mp4">MP4</option>
@@ -1204,7 +1195,6 @@
           </div>
           
           <div class="setting-group">
-            <p class="description">Select video quality to balance file size and clarity.</p>
             <label for="quality">Quality:</label>
             <select id="quality" aria-label="Video quality">
               <option value="high">High</option>
@@ -1214,7 +1204,6 @@
           </div>
           
           <div class="setting-group">
-            <p class="description">Set the frame rate for your video or keep the original.</p>
             <label for="framerate">Framerate:</label>
             <select id="framerate" aria-label="Framerate">
               <option value="original">Original</option>
@@ -1226,7 +1215,6 @@
           </div>
           
           <div class="setting-group">
-            <p class="description">Choose a resolution for your video or maintain the original size.</p>
             <label for="resolution">Resolution:</label>
             <select id="resolution" aria-label="Resolution">
               <option value="original">Original</option>
@@ -1238,41 +1226,10 @@
           </div>
           
           <div class="setting-group">
-            <p class="description">Select an aspect ratio to adjust the video's dimensions.</p>
-            <label for="aspectRatio">Aspect Ratio:</label>
-            <select id="aspectRatio" aria-label="Aspect ratio">
-              <option value="original">Original</option>
-              <option value="16:9">16:9 (Widescreen)</option>
-              <option value="4:3">4:3 (Standard)</option>
-              <option value="1:1">1:1 (Square)</option>
-              <option value="9:16">9:16 (Vertical)</option>
-            </select>
-          </div>
-          
-          <div class="setting-group">
-            <p class="description">Choose bitrate to control video quality and file size.</p>
-            <label for="bitrate">Bitrate:</label>
-            <select id="bitrate" aria-label="Bitrate">
-              <option value="auto">Auto</option>
-              <option value="high">High (Better quality)</option>
-              <option value="medium">Medium</option>
-              <option value="low">Low (Smaller file)</option>
-            </select>
-          </div>
-          
-          <div class="setting-group">
-            <p class="description">Toggle audio settings for your video.</p>
             <div class="toggle-container">
               <label for="mute-audio">Mute Audio</label>
               <label class="toggle-switch">
                 <input type="checkbox" id="mute-audio" aria-label="Mute audio">
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-container">
-              <label for="normalize-audio">Normalize Audio</label>
-              <label class="toggle-switch">
-                <input type="checkbox" id="normalize-audio" aria-label="Normalize audio">
                 <span class="slider"></span>
               </label>
             </div>
@@ -1400,7 +1357,12 @@
     </footer>
   </div>
 
-  <script>
+  <script type="module">
+    import { createFFmpeg, fetchFile } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/+esm';
+
+    let ffmpeg = null;
+    let inputFile = null;
+
     // Cookie Management Functions
     const COOKIE_CONSENT_KEY = 'cookieConsent';
     
@@ -1522,12 +1484,25 @@
 
       function hideElements() {
         convertError.style.display = 'none';
-        convertError.textContent = '';
         convertSuccess.style.display = 'none';
-        convertSuccess.textContent = '';
         convertLoading.style.display = 'none';
         progressContainer.style.display = 'none';
         resultContainer.style.display = 'none';
+      }
+
+      // Initialize FFmpeg instance
+      async function initFFmpeg() {
+        if (!ffmpeg) {
+          ffmpeg = createFFmpeg({ 
+            log: true,
+            corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
+          });
+        }
+        
+        if (!ffmpeg.isLoaded()) {
+          document.getElementById('progressMessage').textContent = 'Loading FFmpeg engine...';
+          await ffmpeg.load();
+        }
       }
 
       dropZone.addEventListener('click', () => videoInput.click());
@@ -1568,6 +1543,8 @@
           showError('File size exceeds 100MB limit.');
           return;
         }
+        
+        inputFile = file;
         const fileInfo = document.getElementById('fileInfo');
         document.getElementById('fileName').textContent = file.name;
         document.getElementById('fileSize').textContent = formatFileSize(file.size);
@@ -1575,12 +1552,11 @@
         fileInfo.style.display = 'block';
         convertBtn.disabled = false;
         
-        const video = document.createElement('video');
-        video.onloadedmetadata = () => {
-          document.getElementById('fileDimensions').textContent = `${video.videoWidth}×${video.videoHeight}`;
-          URL.revokeObjectURL(video.src);
-        };
-        video.src = URL.createObjectURL(file);
+        // Preload FFmpeg in background
+        initFFmpeg().catch(error => {
+          console.error('FFmpeg initialization error:', error);
+          showError('Failed to initialize video engine. Please refresh the page.');
+        });
       }
       
       function formatFileSize(bytes) {
@@ -1591,27 +1567,111 @@
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
       }
       
-      convertBtn.addEventListener('click', () => {
+      convertBtn.addEventListener('click', async () => {
+        if (!inputFile) return;
+        
         hideElements();
         convertLoading.style.display = 'block';
         progressContainer.style.display = 'block';
         
-        let progress = 0;
-        const interval = setInterval(() => {
-          progress += 5;
-          document.getElementById('progressFill').style.width = `${progress}%`;
-          document.getElementById('progressPercent').textContent = `${progress}%`;
+        try {
+          await initFFmpeg();
           
-          if (progress >= 100) {
-            clearInterval(interval);
-            setTimeout(() => {
-              convertLoading.style.display = 'none';
-              progressContainer.style.display = 'none';
-              resultContainer.style.display = 'block';
-              showSuccess('Conversion completed successfully!');
-            }, 500);
+          // Get user settings
+          const outputFormat = document.getElementById('outputFormat').value;
+          const quality = document.getElementById('quality').value;
+          const framerate = document.getElementById('framerate').value;
+          const resolution = document.getElementById('resolution').value;
+          const muteAudio = document.getElementById('mute-audio').checked;
+          
+          // Write input file to FFmpeg FS
+          const inputExt = inputFile.name.split('.').pop() || 'mp4';
+          const inputFilename = `input.${inputExt}`;
+          ffmpeg.FS('writeFile', inputFilename, await fetchFile(inputFile));
+          
+          // Configure output filename
+          const outputFilename = `output.${outputFormat}`;
+          
+          // Build FFmpeg command based on user settings
+          const args = ['-i', inputFilename];
+          
+          // Handle quality settings
+          if (outputFormat === 'mp4') {
+            if (quality === 'high') args.push('-crf', '18');
+            else if (quality === 'medium') args.push('-crf', '23');
+            else if (quality === 'low') args.push('-crf', '28');
+          } else if (outputFormat === 'webm') {
+            if (quality === 'high') args.push('-crf', '10');
+            else if (quality === 'medium') args.push('-crf', '20');
+            else if (quality === 'low') args.push('-crf', '30');
           }
-        }, 200);
+          
+          // Handle framerate
+          if (framerate !== 'original') {
+            args.push('-r', framerate);
+          }
+          
+          // Handle resolution
+          if (resolution !== 'original') {
+            let resolutionValue;
+            switch (resolution) {
+              case '1080p': resolutionValue = '1920x1080'; break;
+              case '720p': resolutionValue = '1280x720'; break;
+              case '480p': resolutionValue = '854x480'; break;
+              case '360p': resolutionValue = '640x360'; break;
+            }
+            args.push('-s', resolutionValue);
+          }
+          
+          // Handle audio
+          if (muteAudio) {
+            args.push('-an');
+          }
+          
+          // Add output filename
+          args.push(outputFilename);
+          
+          // Set up progress handler
+          ffmpeg.setProgress(({ ratio }) => {
+            const progressPercent = Math.round(ratio * 100);
+            document.getElementById('progressFill').style.width = `${progressPercent}%`;
+            document.getElementById('progressPercent').textContent = `${progressPercent}%`;
+            document.getElementById('progressMessage').textContent = `Processing... ${progressPercent}%`;
+          });
+          
+          // Run FFmpeg conversion
+          await ffmpeg.run(...args);
+          
+          // Read output file
+          const data = ffmpeg.FS('readFile', outputFilename);
+          
+          // Create download URL
+          let mimeType;
+          switch (outputFormat) {
+            case 'mp4': mimeType = 'video/mp4'; break;
+            case 'webm': mimeType = 'video/webm'; break;
+            case 'gif': mimeType = 'image/gif'; break;
+          }
+          
+          const videoUrl = URL.createObjectURL(new Blob([data.buffer], { type: mimeType }));
+          const downloadLink = document.getElementById('downloadLink');
+          downloadLink.href = videoUrl;
+          downloadLink.download = `converted.${outputFormat}`;
+          
+          // Clean up
+          ffmpeg.FS('unlink', inputFilename);
+          ffmpeg.FS('unlink', outputFilename);
+          
+          // Show results
+          convertLoading.style.display = 'none';
+          resultContainer.style.display = 'block';
+          showSuccess('Conversion completed successfully!');
+          
+        } catch (error) {
+          console.error('Conversion error:', error);
+          convertLoading.style.display = 'none';
+          showError(`Conversion failed: ${error.message || 'Unknown error'}`);
+        }
       });
     });
   </script>
